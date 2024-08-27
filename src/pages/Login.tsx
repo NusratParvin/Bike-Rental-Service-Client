@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle, FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
@@ -8,7 +9,7 @@ import { verifyToken } from "../utils/verifyToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { useState } from "react";
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +30,8 @@ const Login = () => {
   const onSubmit = async (credentials: any) => {
     const toastId = toast.loading("Logging you in..");
 
-    // Handle login logic here
+    // Check if the user is already logged in and navigate to the dashboard if true
+
     try {
       const res = await login(credentials).unwrap();
 

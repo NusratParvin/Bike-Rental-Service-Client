@@ -35,7 +35,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className=" py-4 ">
+    <nav className=" pt-4  pb-2">
       <div className="hidden md:block">
         <div className="grid grid-cols-4 items-center py-2 px-6 border-b border-gray-700">
           {/* Left side (logo) */}
@@ -127,11 +127,11 @@ export const Navbar = () => {
                   key="logout"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
+                  exit={{ opacity: 0, y: -20 }}
                   onClick={() => dispatch(logout())}
-                  className="bg-transparent text-white px-1 py-1.5 hover:opacity-90 border-transparent hover:border-b hover:border-custom-green text-sm cursor-pointer transition-opacity"
+                  className="bg-transparent text-white px-1 py-0 hover:opacity-90 border-transparent hover:border-b hover:border-custom-green text-sm cursor-pointer transition-opacity"
                 >
-                  Logout
+                  LOGOUT
                 </motion.div>
               ) : (
                 <motion.div
@@ -142,7 +142,6 @@ export const Navbar = () => {
                   className="flex items-end  "
                 >
                   <FlipLink href="/login">login</FlipLink>
-                  {/* <div className="px-1">/</div> */}
                   <FlipLink href="/signup">signup</FlipLink>
                 </motion.div>
               )}

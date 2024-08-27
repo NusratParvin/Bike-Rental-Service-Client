@@ -6,5 +6,6 @@ export const baseApi = createApi({
     baseUrl: "https://bike-rental-service-serverside.vercel.app/api",
     credentials: "include",
   }),
+  tagTypes: ["User"],
   endpoints: () => ({}),
 });
