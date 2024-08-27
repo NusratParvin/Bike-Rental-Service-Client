@@ -3,12 +3,12 @@ import { baseApi } from "../../api/baseApi";
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getUserInfo: builder.query({
-      query: (token) => ({
+      query: () => ({
         url: "/users/me",
         method: "GET",
-        headers: {
-          Authorization: token,
-        },
+        // headers: {
+        //   Authorization: token,
+        // },
       }),
       providesTags: ["User"],
     }),

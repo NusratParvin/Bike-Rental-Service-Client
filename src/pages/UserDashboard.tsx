@@ -2,9 +2,10 @@ import { useState } from "react";
 
 import { FaUser, FaMotorcycle, FaCalendarCheck } from "react-icons/fa";
 import MyProfile from "../components/MyProfile";
-import MyBikeListing from "../components/MyBikeListing";
 import MyRentals from "../components/MyRentals";
 import { Navbar } from "../components/Navbar";
+import Footer from "../components/Footer";
+import BikeListing from "../components/BikeListing";
 
 const tabs = [
   {
@@ -13,9 +14,9 @@ const tabs = [
     component: <MyProfile />,
   },
   {
-    name: "Bike Management",
+    name: "Bike Listing",
     icon: <FaMotorcycle className="mr-2" />,
-    component: <MyBikeListing />,
+    component: <BikeListing />,
   },
   {
     name: "My Rentals",
@@ -57,6 +58,7 @@ const UserDashboard = () => {
           {tabs.find((tab) => tab.name === selectedTab)?.component}
         </main>
       </section>
+      <Footer />
     </>
   );
 };

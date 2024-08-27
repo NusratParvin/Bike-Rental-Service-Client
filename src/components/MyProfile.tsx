@@ -10,6 +10,8 @@ import {
 import { useCurrentToken, setUser } from "../redux/features/auth/authSlice";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import defaultAvatar from "/avatar.jpg";
+import Spinner from "./Spinner";
+import LoadingError from "./LoadingError";
 
 const MyProfile = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +20,7 @@ const MyProfile = () => {
   const token = useAppSelector(useCurrentToken);
   const finalToken = `Bearer ${useAppSelector(useCurrentToken)}`;
   const userRole = useAppSelector((state) => state.auth.user?.role);
-  const { data: userInfo, error, isLoading } = useGetUserInfoQuery(finalToken);
+  const { data: userInfo, error, isLoading } = useGetUserInfoQuery(undefined);
 
   const [updateUser] = useUpdateUserMutation();
 
@@ -73,8 +75,8 @@ const MyProfile = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading user info.</p>;
+  if (isLoading) return <Spinner />;
+  if (error) return <LoadingError />;
 
   const { name, email, phone, address } = userInfo?.data || {};
 

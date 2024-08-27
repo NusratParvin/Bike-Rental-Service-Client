@@ -19,6 +19,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isUser = useAppSelector(useCurrentUser);
+  // console.log(isUser);
 
   const toggleSubmenu = () => {
     setIsSubmenuOpen(!isSubmenuOpen);
@@ -102,10 +103,15 @@ export const Navbar = () => {
                 </Link>
                 <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </li>
-              <li className="relative group hover:text-custom-green duration-300 px-4">
-                <Link to="/gallery" className="cursor-pointer">
-                  GALLERY
-                </Link>
+              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
+                <NavLink
+                  to={`/${isUser?.role}/dashboard`}
+                  className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "text-custom-green" : ""
+                  }
+                >
+                  DASHBOARD
+                </NavLink>
                 <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </li>
 
