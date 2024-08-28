@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
-import { FaGithub, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
-const imageUrl = "https://via.placeholder.com/150"; // Replace with actual bike image URL if available
+import { TBike } from "../types/bike";
 
-const SingleBike = ({ bike }) => {
+const imageUrl =
+  "https://images.unsplash.com/photo-1525013066836-c6090f0ad9d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bW90b3JiaWtlfGVufDB8fDB8fHww";
+
+type Props = {
+  bike: TBike;
+};
+
+const SingleBike: React.FC<Props> = ({ bike }) => {
   return (
     <div className="mx-auto mt-0 w-[270px] transform overflow-hidden bg-white dark:bg-black/80 shadow-md duration-300 hover:shadow-lg">
       <img
         className="h-44 w-full  hover:scale-110 transition-transform duration-500 object-cover object-center"
-        src={imageUrl}
+        src={bike.image}
         alt={bike.name}
       />
       <div className=" px-2 flex justify-between items-baseline border-b border-custom-green/60">
@@ -24,17 +30,17 @@ const SingleBike = ({ bike }) => {
         </div>
       </div>
       <div className="px-4 py-2">
-        {/* <p className="mb-2 text-sm dark:text-gray-100 text-gray-700">
-          {bike.description}
-        </p> */}
         <div className="flex justify-between items-center">
           <p className="mr-2 text-lg font-semibold text-white/80 ">
             ${bike.pricePerHour.toFixed(2)}
           </p>
 
-          <button className="relative px-4 py-1 text-sm rounded-none bg-white isolation-auto z-10 border before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:bg-custom-green before:-z-10 before:aspect-square before:hover:scale-150 overflow-hidden before:hover:duration-500">
+          <Link
+            to={`../bike-details/${bike._id}`}
+            className="relative px-4 py-1 text-sm rounded-none bg-white isolation-auto z-10 border border-gray-900 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:bg-custom-green before:-z-10 before:aspect-square before:hover:scale-150 overflow-hidden before:hover:duration-500"
+          >
             View Details
-          </button>
+          </Link>
         </div>
       </div>
     </div>

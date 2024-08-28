@@ -1,63 +1,54 @@
-import { useState } from "react";
-
+import { NavLink, Outlet } from "react-router-dom";
 import { FaUser, FaMotorcycle, FaCalendarCheck } from "react-icons/fa";
-import MyProfile from "../components/MyProfile";
-import MyRentals from "../components/MyRentals";
-import { Navbar } from "../components/Navbar";
 import Footer from "../components/Footer";
-import BikeListing from "../components/BikeListing";
+import { Navbar } from "../components/Navbar";
 
-const tabs = [
-  {
-    name: "Profile",
-    icon: <FaUser className="mr-2" />,
-    component: <MyProfile />,
-  },
+const menuItems = [
+  { name: "Profile", path: "profile", icon: <FaUser className="w-6 h-6" /> },
   {
     name: "Bike Listing",
-    icon: <FaMotorcycle className="mr-2" />,
-    component: <BikeListing />,
+    path: "bike-listing",
+    icon: <FaMotorcycle className="w-6 h-6" />,
   },
   {
     name: "My Rentals",
-    icon: <FaCalendarCheck className="mr-2" />,
-    component: <MyRentals />,
+    path: "my-rentals",
+    icon: <FaCalendarCheck className="w-6 h-6" />,
   },
 ];
+// const location = useLocation();
 
 const UserDashboard = () => {
-  const [selectedTab, setSelectedTab] = useState("Profile");
-
   return (
     <>
       <Navbar />
-      <section>
-        {/* Header */}
-        <header className="relative px-10 md:px-20 flex items-center justify-center ">
-          <ul className="flex flex-wrap justify-center items-center gap-8">
-            {tabs.map((tab) => (
-              <li
-                key={tab.name}
-                className="py-1 px-3 relative cursor-pointer uppercase text-sm flex items-center"
-                onClick={() => setSelectedTab(tab.name)}
-              >
-                {tab.icon}
-                {tab.name}
-                <div
-                  className={`absolute w-full h-[2px] bg-custom-green left-0 -bottom-1 ${
-                    selectedTab === tab.name ? "block" : "hidden"
-                  }`}
-                ></div>
-              </li>
-            ))}
-          </ul>
-        </header>
+      <section className="relative max-w-screen bg-black/10 mx-4 md:mx-12">
+        <nav className="z-20 absolute top-0 left-0 right-0 flex justify-around items-center gap-8 py-4 shadow-lg backdrop-blur-lg bg-gray-700/20">
+          {menuItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={`/user/dashboard/${item.path}`}
+              className={({ isActive }) =>
+                `flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                  isActive
+                    ? "text-custom-green border-transparent"
+                    : "text-gray-400 hover:text-custom-green border-transparent"
+                } border-b-2`
+              }
+            >
+              {item.icon}
+              <small className="text-center text-xs md:text-sm font-medium">
+                {item.name}
+              </small>
+            </NavLink>
+          ))}
+        </nav>
 
-        {/* Main Content */}
-        <main className="mx-auto p-8 lg:py-6 lg:px-20 ">
-          {tabs.find((tab) => tab.name === selectedTab)?.component}
+        <main className="pt-28 md:pt-20 lg:pt-24 py-8 md:p-8 h-screen">
+          <Outlet />
         </main>
       </section>
+
       <Footer />
     </>
   );

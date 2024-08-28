@@ -81,10 +81,10 @@ const MyProfile = () => {
   const { name, email, phone, address } = userInfo?.data || {};
 
   return (
-    <section className="py-10 px-16 bg-black/10 min-h-screen">
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row bg-transparent text-white rounded-none overflow-hidden">
+    <section className="w-full min-h-screen  ">
+      <div className="w-full mx-auto flex flex-col lg:flex-row bg-transparent text-white rounded-none overflow-hidden">
         {/* Left Side */}
-        <div className="w-full lg:w-1/2 bg-gray-100/80 text-gray-800 p-8 flex flex-col items-center text-center relative">
+        <div className="w-full lg:w-2/5 bg-gray-100/80 text-gray-800 p-4 md:p-8 flex flex-col items-center text-center relative">
           <img
             src={defaultAvatar}
             alt="User Avatar"
@@ -124,12 +124,12 @@ const MyProfile = () => {
         </div>
 
         {/* Right Side */}
-        <div className="w-full lg:w-2/3 p-8">
+        <div className="w-full lg:w-3/5 md:p-8 px-4 py-12">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-semibold ms-6 text-custom-green">
               Profile Information
             </h3>
-            <label className="inline-flex items-center">
+            <label className="inline-flex items-center ">
               <input
                 type="checkbox"
                 checked={isEditMode}
@@ -144,7 +144,7 @@ const MyProfile = () => {
           <div className="flex items-center justify-center">
             <div
               className="mx-auto w-full text-white
-               p-6 rounded-lg"
+               md:p-6 p-0 rounded-lg"
             >
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Full Name */}

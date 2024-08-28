@@ -79,13 +79,13 @@ const BikeListing = () => {
 
   const filterOptions = {
     priceRange: ["All", "500", "1000", "2000", "5000"],
-    brand: ["All", "Giant", "Trek", "Specialized", "Canyon"],
+    brand: ["All", "Giant", "Trek", "Canyon", "Yamaha"],
     model: [...new Set(bikes.map((bike) => bike.model))],
     availability: ["All", "Available", "Unavailable"],
   };
 
   return (
-    <div className="w-full mx-auto py-0 mb-8 border bg-gray-100 text-gray-700">
+    <div className="w-full mx-auto py-0 mb-8 border bg-gray-200 text-gray-700">
       <div className="flex py-12 px-8 md:flex-row flex-col">
         <div className="md:w-1/4 w-full pr-4 md:pb-0 pb-12">
           <h2 className="text-3xl font-semibold mb-4 uppercase font-teko text-custom-green">
@@ -158,7 +158,7 @@ const BikeListing = () => {
 
           <button
             onClick={clearFilters}
-            className="bg-custom-green text-white py-2 px-4 hover:bg-green-600 transition duration-300 w-full rounded-none mt-8"
+            className="bg-custom-green text-white py-2 px-4 hover:bg-green-600  focus:outline-none transition duration-300 w-full rounded-none mt-8"
           >
             Clear Filters
           </button>
@@ -192,17 +192,19 @@ const BikeListing = () => {
               </div>
             </div>
 
-            {isLoading ? (
-              <Spinner />
-            ) : error ? (
-              <LoadingError />
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 py-6 mb-24 ">
-                {filteredBikes.map((bike: TBike) => (
-                  <SingleBike key={bike._id} bike={bike} />
-                ))}
-              </div>
-            )}
+            <div className="h-screen">
+              {isLoading ? (
+                <Spinner />
+              ) : error ? (
+                <LoadingError />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 py-6 mb-24 ">
+                  {filteredBikes.map((bike: TBike) => (
+                    <SingleBike key={bike._id} bike={bike} />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </main>
       </div>
