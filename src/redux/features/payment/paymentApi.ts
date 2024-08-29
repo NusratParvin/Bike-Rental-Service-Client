@@ -32,11 +32,32 @@ export const paymentApi = baseApi.injectEndpoints({
         body: paymentData,
       }),
     }),
+
+    saveRemainderPayment: builder.mutation({
+      query: ({
+        rentalId,
+        paymentData,
+      }: {
+        rentalId: string;
+        paymentData: {
+          transactionId: string;
+          amount: number;
+          bikeId: string;
+          userId: string;
+          email: string;
+        };
+      }) => ({
+        url: `/rentals/${rentalId}/payments`, // Using the '/return' endpoint
+        method: "PUT", // This is a PUT request to update the rental
+        body: paymentData, // Send the payment data in the request body
+      }),
+    }),
   }),
 });
 
 export const {
   useSavePaymentDataMutation,
+  useSaveRemainderPaymentMutation,
   useCreatePaymentIntentMutation,
   useConfirmPaymentMutation,
 } = paymentApi;

@@ -9,14 +9,26 @@ const Payment = () => {
   const location = useLocation();
   const { state } = location;
 
-  // Extract booking data from location state
-  const amount = state?.amount || 100;
+  // const amount = state?.amount;
+  // const bikeId = state?.bikeId || "";
+  // const startTime = state?.startTime || "";
+  console.log("Payment Page State:", state);
+
+  // Extract details from state
+  const isRemainderPayment = state?.isRemainderPayment || false;
+  const amount = state?.amount;
   const bikeId = state?.bikeId || "";
+  const rentalId = state?.rentalId || "";
   const startTime = state?.startTime || "";
 
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm amount={amount} bikeId={bikeId} startTime={startTime} />
+      {/* <CheckoutForm amount={amount} bikeId={bikeId} startTime={startTime} /> */}
+      {isRemainderPayment ? (
+        <CheckoutForm amount={amount} bikeId={bikeId} rentalId={rentalId} />
+      ) : (
+        <CheckoutForm amount={amount} bikeId={bikeId} startTime={startTime} />
+      )}
     </Elements>
   );
 };

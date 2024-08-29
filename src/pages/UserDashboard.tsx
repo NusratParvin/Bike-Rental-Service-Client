@@ -23,7 +23,7 @@ const UserDashboard = () => {
     <>
       <Navbar />
       <section className="relative max-w-screen bg-black/10 mx-4 md:mx-12">
-        <nav className="z-20 absolute top-0 left-0 right-0 flex justify-around items-center gap-8 py-4 shadow-lg backdrop-blur-lg bg-gray-700/20">
+        <nav className="z-20 absolute top-0 left-0 right-0 flex flex-row first-line: md:flex-col w-full md:w-24 md:h-96 md:top-20 justify-around items-center gap-8 py-4 shadow-lg backdrop-blur-lg ps-2">
           {menuItems.map((item) => (
             <NavLink
               key={item.name}
@@ -44,7 +44,7 @@ const UserDashboard = () => {
           ))}
         </nav>
 
-        <main className="pt-28 md:pt-20 lg:pt-24 py-8 md:p-8 h-screen">
+        <main className="pt-28  lg:pt-12 py-8 md:p-4 md:ms-28 min-h-screen">
           <Outlet />
         </main>
       </section>
