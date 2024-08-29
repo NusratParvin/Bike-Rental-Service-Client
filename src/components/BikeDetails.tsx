@@ -2,28 +2,24 @@ import { useParams } from "react-router-dom";
 import { useGetBikeByIdQuery } from "../redux/features/bikes/bikesApi";
 import Spinner from "../components/Spinner";
 import { TBike } from "../types/bike";
-// import { useNavigate } from "react-router-dom";
 import LoadingError from "./LoadingError";
+import { useState } from "react";
+import PaymentModal from "./Payment/PaymentModal";
 
 const BikeDetails = () => {
   const { bikeId } = useParams();
   const { data, error, isLoading } = useGetBikeByIdQuery(bikeId);
-  // const navigate = useNavigate();
-
-  if (isLoading) return <Spinner />;
-  if (error || !data) {
-    console.log(bikeId);
-    console.log(error || data);
-    return <LoadingError />;
-  }
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const defaultImageUrl =
     "https://images.unsplash.com/photo-1525013066836-c6090f0ad9d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bW90b3JiaWtlfGVufDB8fDB8fHww";
-  const bike: TBike = data.data;
 
-  // const handleBookNow = () => {
-  //   navigate(`/user/booking/${id}`);
-  // };
+  if (isLoading) return <Spinner />;
+  if (error || !data) {
+    return <LoadingError />;
+  }
+
+  const bike: TBike = data.data;
 
   return (
     <section className="w-11/12 mx-auto">
@@ -57,11 +53,11 @@ const BikeDetails = () => {
             </div>
             <div className="mt-8 flex flex-col sm:flex-row">
               <button
-                // onClick={handleBookNow}
+                onClick={() => setShowPaymentModal(true)}
                 disabled={!bike.isAvailable}
                 className={`relative px-24 py-1 text-base rounded-none isolation-auto z-10 border overflow-hidden ${
                   bike.isAvailable
-                    ? "bg-white/90 text-gray-800 border-gray-900 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:bg-custom-green before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-500"
+                    ? "bg-white/90 text-gray-800 border-gray-900 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:bg-custom-green before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-500 focus:outline-none"
                     : "bg-gray-300 text-gray-500 border-gray-500 cursor-not-allowed"
                 }`}
               >
@@ -78,6 +74,13 @@ const BikeDetails = () => {
           </div>
         </div>
       </div>
+      {bikeId && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          setIsOpen={setShowPaymentModal}
+          bikeId={bikeId}
+        />
+      )}
     </section>
   );
 };

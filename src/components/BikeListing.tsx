@@ -3,7 +3,6 @@ import { useGetAllBikesQuery } from "../redux/features/bikes/bikesApi";
 import Spinner from "./Spinner";
 import SingleBike from "./SingleBike";
 import { TBike } from "../types/bike";
-import LoadingError from "./LoadingError";
 
 const BikeListing = () => {
   // State initialization
@@ -16,7 +15,7 @@ const BikeListing = () => {
   });
   const [sortOrder, setSortOrder] = useState("");
 
-  const { data, error, isLoading } = useGetAllBikesQuery(undefined);
+  const { data, isLoading } = useGetAllBikesQuery(undefined);
 
   const bikes: TBike[] = data?.data || [];
 
@@ -25,7 +24,6 @@ const BikeListing = () => {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
   };
-
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOrder(e.target.value);
   };
@@ -195,13 +193,24 @@ const BikeListing = () => {
             <div className="h-screen">
               {isLoading ? (
                 <Spinner />
-              ) : error ? (
-                <LoadingError />
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 py-6 mb-24 ">
-                  {filteredBikes.map((bike: TBike) => (
+                  {/* {
+                  filteredBikes?.map((bike: TBike) => (
                     <SingleBike key={bike._id} bike={bike} />
-                  ))}
+                  ))
+                  } */}
+                  {filteredBikes && filteredBikes.length > 0 ? (
+                    filteredBikes.map((bike: TBike) => (
+                      <SingleBike key={bike._id} bike={bike} />
+                    ))
+                  ) : (
+                    <div className="flex justify-center items-center py-6">
+                      <div className="bg-transparent text-gray-700 px-4 py-3">
+                        <strong className="font-bold">No Data Found</strong>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
