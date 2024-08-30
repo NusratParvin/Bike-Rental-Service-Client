@@ -2,7 +2,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { TBike } from "../../types/bike";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { GiCheckMark } from "react-icons/gi";
 
 type BikeModalProps = {
   bike?: TBike;
@@ -29,6 +31,13 @@ const BikeModal: React.FC<BikeModalProps> = ({ bike, onSubmit, onClose }) => {
       description: "",
     },
   });
+
+  const [isChangingImage, setIsChangingImage] = useState(false);
+  const [image, setImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
   // Populate form fields when editing a bike
   useEffect(() => {
@@ -70,7 +79,7 @@ const BikeModal: React.FC<BikeModalProps> = ({ bike, onSubmit, onClose }) => {
             className="space-y-2 py-4 px-8 w-full mx-auto"
           >
             <div className="flex flex-col md:flex-row gap-8 md:justify-between">
-              <div className="flex flex-col md:flex-row items-center md:w-3/5">
+              <div className="flex flex-col md:flex-row items-center md:w-3/5  ">
                 <label className="text-gray-700 font-semibold text-base w-full md:w-32 ">
                   Name
                 </label>
@@ -86,32 +95,56 @@ const BikeModal: React.FC<BikeModalProps> = ({ bike, onSubmit, onClose }) => {
                   </p>
                 )}
               </div>
-              <div className="flex flex-row items-center">
-                <label className="text-gray-700 font-semibold text-base  md:w-24 w-1/2">
-                  Available
-                </label>
-                <input
-                  id="checkbox1"
-                  type="checkbox"
-                  className="hidden peer"
-                  {...register("isAvailable")}
-                />
-                <label
-                  htmlFor="checkbox1"
-                  className="relative flex border-gray-300 rounded-none items-center justify-center p-1 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-6 h-6 cursor-pointer bg-green-500 border overflow-hidden "
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-full fill-white"
-                    viewBox="0 0 520 520"
+
+              <div className="flex flex-row">
+                <div className="flex flex-row items-center w-1/2">
+                  <label className="text-gray-700 font-semibold text-base  md:w-20   w-1/2">
+                    Available
+                  </label>
+                  <input
+                    id="checkbox1"
+                    type="checkbox"
+                    className="hidden peer"
+                    {...register("isAvailable")}
+                  />
+                  <label
+                    htmlFor="checkbox1"
+                    className="relative flex border-gray-300 rounded-none items-center justify-center p-1 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-6 h-6 cursor-pointer bg-green-500 border overflow-hidden "
                   >
-                    <path
-                      d="M79.423 240.755a47.529 47.529 0 0 0-36.737 77.522l120.73 147.894a43.136 43.136 0 0 0 36.066 16.009c14.654-.787 27.884-8.626 36.319-21.515L486.588 56.773a6.13 6.13 0 0 1 .128-.2c2.353-3.613 1.59-10.773-3.267-15.271a13.321 13.321 0 0 0-19.362 1.343q-.135.166-.278.327L210.887 328.736a10.961 10.961 0 0 1-15.585.843l-83.94-76.386a47.319 47.319 0 0 0-31.939-12.438z"
-                      data-name="7-Check"
-                      data-original="#000000"
+                    <GiCheckMark className="text-white w-full" />
+                  </label>
+                </div>
+
+                {bike && (
+                  <div className="flex flex-row items-center ml-4">
+                    <label className="text-gray-700 font-semibold text-base  md:w-24 w-1/2">
+                      Change Image
+                    </label>
+                    <input
+                      id="changeImageCheckbox"
+                      type="checkbox"
+                      className="hidden peer"
+                      checked={isChangingImage}
+                      onChange={() => setIsChangingImage(!isChangingImage)}
                     />
-                  </svg>
-                </label>
+                    <label
+                      htmlFor="changeImageCheckbox"
+                      className="relative flex border-gray-300 rounded-none items-center justify-center p-1 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-6 h-6 cursor-pointer bg-green-500 border overflow-hidden "
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-full fill-white"
+                        viewBox="0 0 520 520"
+                      >
+                        <path
+                          d="M79.423 240.755a47.529 47.529 0 0 0-36.737 77.522l120.73 147.894a43.136 43.136 0 0 0 36.066 16.009c14.654-.787 27.884-8.626 36.319-21.515L486.588 56.773a6.13 6.13 0 0 1 .128-.2c2.353-3.613 1.59-10.773-3.267-15.271a13.321 13.321 0 0 0-19.362 1.343q-.135.166-.278.327L210.887 328.736a10.961 10.961 0 0 1-15.585.843l-83.94-76.386a47.319 47.319 0 0 0-31.939-12.438z"
+                          data-name="7-Check"
+                          data-original="#000000"
+                        />
+                      </svg>
+                    </label>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -173,27 +206,35 @@ const BikeModal: React.FC<BikeModalProps> = ({ bike, onSubmit, onClose }) => {
               </div>
 
               <div className="flex flex-col md:flex-row items-center w-full  md:w-1/3 mt-6 md:mt-0 md:py-4  ">
-                <label
-                  for="uploadFile1"
-                  className="ml-auto bg-white text-gray-500 font-semibold text-base rounded max-w-md h-24 md:h-32 flex flex-col items-center justify-center cursor-pointer border border-gray-300 border-dashed w-full "
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-11 mb-2 fill-gray-500"
-                    viewBox="0 0 32 32"
+                {!isChangingImage && bike?.image ? (
+                  <img
+                    src={bike.image}
+                    alt={bike.name}
+                    className="w-full h-24 md:h-32 object-cover border border-gray-300"
+                  />
+                ) : (
+                  <label
+                    htmlFor="uploadFile1"
+                    className="ml-auto bg-white text-gray-500 font-semibold text-base rounded max-w-md h-24 md:h-32 flex flex-col items-center justify-center cursor-pointer border border-gray-300 border-dashed w-full"
                   >
-                    <path
-                      d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z"
-                      data-original="#000000"
-                    />
-                    <path
-                      d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z"
-                      data-original="#000000"
-                    />
-                  </svg>
-                  Upload Image
-                  <input type="file" id="uploadFile1" className="hidden" />
-                </label>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-11 mb-2 fill-gray-500"
+                      viewBox="0 0 32 32"
+                    >
+                      <path
+                        d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z"
+                        data-original="#000000"
+                      />
+                      <path
+                        d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z"
+                        data-original="#000000"
+                      />
+                    </svg>
+                    Upload Image
+                    <input type="file" id="uploadFile1" className="hidden" />
+                  </label>
+                )}
               </div>
             </div>
 
@@ -255,17 +296,6 @@ const BikeModal: React.FC<BikeModalProps> = ({ bike, onSubmit, onClose }) => {
                 </p>
               )}
             </div>
-
-            {/* <div className="flex flex-col md:flex-row items-center">
-              <label className="text-gray-700 font-semibold text-base w-full md:w-32 ">
-                Available
-              </label>
-              <input
-                type="checkbox"
-                className="w-6 h-6 rounded-none border-gray-300 text-custom-green"
-                {...register("isAvailable")}
-              />
-            </div> */}
 
             {/* Footer */}
             <div className="flex justify-end pt-4 text-sm">
