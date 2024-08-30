@@ -1,16 +1,17 @@
-import BikeDetails from "../components/BikeDetails";
-import BikeListing from "../components/BikeListing";
+import { Navigate } from "react-router-dom";
 import MyProfile from "../components/MyProfile";
-import MyRentals from "../components/MyRentals";
 import Payment from "../components/Payment/Payment";
+import BikeDetails from "../components/User/BikeDetails";
+import BikeListing from "../components/User/BikeListing";
+import MyRentalsPage from "../components/User/MyRentals";
 import ProtectedDashboardLayout from "../layouts/ProtectedDashboardLayout";
-import UserDashboard from "../pages/UserDashboard";
+import Dashboard from "../pages/Dashboard";
 
 export const userRoutes = {
   path: "/user",
   element: (
     <ProtectedDashboardLayout role="user">
-      <UserDashboard />
+      <Dashboard />
     </ProtectedDashboardLayout>
   ),
   children: [
@@ -18,9 +19,10 @@ export const userRoutes = {
       path: "dashboard",
       // element: <UserDashboard />,
       children: [
+        { path: "", element: <Navigate to="bike-listing" /> },
         { path: "profile", element: <MyProfile /> },
         { path: "bike-listing", element: <BikeListing /> },
-        { path: "my-rentals", element: <MyRentals /> },
+        { path: "my-rentals", element: <MyRentalsPage /> },
         { path: "bike-details/:bikeId", element: <BikeDetails /> },
         { path: "payment", element: <Payment /> },
       ],

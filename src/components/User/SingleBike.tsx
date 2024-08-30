@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { TBike } from "../types/bike";
+import { TBike } from "../../types/bike";
 
-// const imageUrl =
-//   "https://images.unsplash.com/photo-1525013066836-c6090f0ad9d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bW90b3JiaWtlfGVufDB8fDB8fHww";
+const imageUrl =
+  "https://images.unsplash.com/photo-1525013066836-c6090f0ad9d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bW90b3JiaWtlfGVufDB8fDB8fHww";
 
 type Props = {
   bike: TBike;
@@ -10,10 +10,10 @@ type Props = {
 
 const SingleBike: React.FC<Props> = ({ bike }) => {
   return (
-    <div className="mx-auto mt-0 w-[270px] transform overflow-hidden bg-white dark:bg-black/80 shadow-md duration-300 hover:shadow-lg">
+    <div className="mx-auto mt-0 w-[320px] transform overflow-hidden bg-white dark:bg-black/80 shadow-md duration-300 hover:shadow-lg">
       <img
         className="h-44 w-full  hover:scale-110 transition-transform duration-500 object-cover object-center"
-        src={bike.image}
+        src={bike.image || imageUrl}
         alt={bike.name}
       />
       <div className=" px-2 flex justify-between items-baseline border-b border-custom-green/60">

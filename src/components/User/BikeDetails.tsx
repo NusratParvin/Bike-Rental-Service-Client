@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import { useGetBikeByIdQuery } from "../redux/features/bikes/bikesApi";
-import Spinner from "../components/Spinner";
-import { TBike } from "../types/bike";
-import LoadingError from "./LoadingError";
+import { useGetBikeByIdQuery } from "../../redux/features/bikes/bikesApi";
 import { useState } from "react";
-import PaymentModal from "./Payment/PaymentModal";
+import Spinner from "../Spinner";
+import LoadingError from "../LoadingError";
+import { TBike } from "../../types/bike";
+import PaymentModal from "../Payment/PaymentModal";
 
 const BikeDetails = () => {
   const { bikeId } = useParams();

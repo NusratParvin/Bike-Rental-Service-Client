@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useGetRentalsQuery } from "../redux/features/rentals/rentalApi";
-import { TMyRental } from "../types/myRental";
 import { FaExclamationCircle, FaCheckCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { TMyRental } from "../../types/myRental";
+import { useGetRentalsQuery } from "../../redux/features/rentals/rentalApi";
 
 const MyRentalsPage = () => {
   const [activeTab, setActiveTab] = useState<"Paid" | "Unpaid">("Unpaid");

@@ -104,7 +104,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
       //   : commonPaymentData;
       const firstPaymentData = {
         ...commonPaymentData,
-        startTime: startTime as string, // Cast to string if it's defined
+        startTime: startTime as string,
       };
 
       console.log(firstPaymentData);

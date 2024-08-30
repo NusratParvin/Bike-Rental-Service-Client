@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useGetAllBikesQuery } from "../redux/features/bikes/bikesApi";
-import Spinner from "./Spinner";
 import SingleBike from "./SingleBike";
-import { TBike } from "../types/bike";
+import { useGetAllBikesQuery } from "../../redux/features/bikes/bikesApi";
+import { TBike } from "../../types/bike";
+import Spinner from "../Spinner";
 
 const BikeListing = () => {
   // State initialization
@@ -84,7 +84,7 @@ const BikeListing = () => {
 
   return (
     <div className="w-full mx-auto py-0 mb-8 border bg-gray-200 text-gray-700">
-      <div className="flex py-12 px-8 md:flex-row flex-col">
+      <div className="flex py-12 px-4 md:flex-row flex-col">
         <div className="md:w-1/4 w-full pr-4 md:pb-0 pb-12">
           <h2 className="text-3xl font-semibold mb-4 uppercase font-teko text-custom-green">
             Filter By
@@ -194,7 +194,7 @@ const BikeListing = () => {
               {isLoading ? (
                 <Spinner />
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 py-6 mb-24 ">
+                <div className="grid grid-cols-1 md:grid-cols-2  gap-2 py-6 mb-24 ">
                   {/* {
                   filteredBikes?.map((bike: TBike) => (
                     <SingleBike key={bike._id} bike={bike} />

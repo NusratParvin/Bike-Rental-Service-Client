@@ -47,9 +47,9 @@ export const paymentApi = baseApi.injectEndpoints({
           email: string;
         };
       }) => ({
-        url: `/rentals/${rentalId}/payments`, // Using the '/return' endpoint
-        method: "PUT", // This is a PUT request to update the rental
-        body: paymentData, // Send the payment data in the request body
+        url: `/rentals/${rentalId}/payments`,
+        method: "PUT",
+        body: paymentData,
       }),
     }),
   }),
