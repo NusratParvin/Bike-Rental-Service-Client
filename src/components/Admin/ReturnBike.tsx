@@ -1,16 +1,16 @@
-import { useState } from "react";
+// import { useState } from "react";
 
 const ReturnBike = () => {
-  const [rentals, setRentals] = useState([]); // Replace with actual data fetching
+  // const [rentals, setRentals] = useState([]); // Replace with actual data fetching
 
-  const handleReturnBike = (rentalId: string) => {
-    // Logic to calculate and update rental details
-  };
+  // const handleReturnBike = (rentalId: string) => {
+  //   // Logic to calculate and update rental details
+  // };
 
   return (
     <div>
       <h2>Return Bike</h2>
-      <ul>
+      {/* <ul>
         {rentals.map((rental) => (
           <li key={rental.id}>
             <span>
@@ -22,7 +22,7 @@ const ReturnBike = () => {
             </button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };

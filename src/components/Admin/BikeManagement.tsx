@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   useGetAllBikesQuery,
   useCreateBikeMutation,
@@ -9,16 +9,18 @@ import { TBike } from "../../types/bike";
 import {
   FaCheckCircle,
   FaEdit,
-  FaTimes,
   FaTimesCircle,
   FaTrashAlt,
 } from "react-icons/fa";
-import BikeModal from "./BikeModal"; // Import the BikeModal component
+import BikeModal from "./BikeModal";
+import Spinner from "../Spinner";
+import LoadingError from "../LoadingError";
 
 const BikeManagement = () => {
   const {
-    data: bikesResponse = [],
+    data: bikesResponse,
     error,
+    isLoading,
     refetch,
   } = useGetAllBikesQuery(undefined);
   const [createBike] = useCreateBikeMutation();
@@ -34,69 +36,73 @@ const BikeManagement = () => {
 
   const bikes = bikesResponse?.data || [];
 
-  // Extract filter options
   const filterOptions = {
-    brand: ["All", ...new Set(bikes.map((bike: TBike) => bike.brand))],
-    model: ["All", ...new Set(bikes.map((bike: TBike) => bike.model))],
-    availability: ["All", "Available", "Unavailable"],
+    brand: [
+      "All",
+      ...new Set(bikes.map((bike: TBike) => bike.brand)),
+    ] as string[],
+    model: [
+      "All",
+      ...new Set(bikes.map((bike: TBike) => bike.model)),
+    ] as string[],
+    availability: ["All", "Available", "Unavailable"] as string[],
   };
 
   const handleEditBike = (bike: TBike) => {
     setSelectedBike(bike);
-    setIsModalOpen(true); // Open the modal when editing a bike
+    setIsModalOpen(true);
   };
 
   const handleCreateBike = () => {
-    setSelectedBike(null); // Reset selected bike
-    setIsModalOpen(true); // Open the modal for creating a new bike
+    setSelectedBike(null);
+    setIsModalOpen(true);
   };
 
   const handleDeleteBike = async (bikeId: string) => {
     try {
       await deleteBike(bikeId).unwrap();
-      refetch(); // Refresh the bike list after deletion
+      refetch();
     } catch (error) {
       console.error("Failed to delete bike", error);
     }
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false); // Close the modal
+    setIsModalOpen(false);
   };
 
-  const handleModalSubmit = async (bikeData: TBike) => {
+  const handleModalSubmit = async (bikeData: Omit<TBike, "_id">) => {
     try {
       if (selectedBike) {
-        // If a bike is selected, update it
-        await updateBike({ ...selectedBike, ...bikeData }).unwrap();
+        const id = selectedBike?._id;
+        await updateBike({ id, ...bikeData }).unwrap();
       } else {
-        // Otherwise, create a new bike
         await createBike(bikeData).unwrap();
       }
-      refetch(); // Refresh the bike list after creation or update
+      refetch();
     } catch (error) {
       console.error("Failed to save bike", error);
     }
-    setIsModalOpen(false); // Close the modal after submission
+    setIsModalOpen(false);
   };
 
-  const handleFilterChange = (event) => {
+  const handleFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFilter(event.target.value);
   };
 
-  const handleBrandChange = (event) => {
+  const handleBrandChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedBrand(event.target.value);
   };
 
-  const handleModelChange = (event) => {
+  const handleModelChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(event.target.value);
   };
 
-  const handleAvailabilityChange = (event) => {
+  const handleAvailabilityChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedAvailability(event.target.value);
   };
 
-  const filteredBikes = bikes.filter((bike) => {
+  const filteredBikes = bikes.filter((bike: TBike) => {
     const matchesBrand =
       selectedBrand === "All" || bike.brand === selectedBrand;
     const matchesModel =
@@ -110,6 +116,15 @@ const BikeManagement = () => {
     return matchesBrand && matchesModel && matchesAvailability && matchesName;
   });
 
+  if (isLoading) return <Spinner />;
+
+  if (error) return <LoadingError />;
+
+  if (!filteredBikes.length)
+    return (
+      <div className="flex justify-center items-center">No Data Found</div>
+    );
+
   return (
     <div className="mx-auto max-w-screen-lg bg-transparent">
       <div className="md:flex md:items-center md:justify-between flex-col md:flex-row">
@@ -119,7 +134,6 @@ const BikeManagement = () => {
 
         <div className="mt-4 md:mt-0 text-white w-full md:w-9/12">
           <div className="flex flex-col gap-4 md:flex-row items-stretch md:items-center md:justify-end md:mb-0 mb-6">
-            {/* filters */}
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
               <div className="flex md:flex-col flex-row items-center space-x-2 w-full md:w-auto">
                 <label className="w-1/3 md:w-auto text-sm font-medium text-custom-green">
@@ -240,7 +254,7 @@ const BikeManagement = () => {
                 <th className="py-2 text-sm font-medium text-gray-200 px-2 md:px-4 border-b border-gray-500 w-8  ">
                   #
                 </th>
-                <th className="py-2 text-sm font-medium text-gray-200 px-0 md:px-0 border-b border-gray-500">
+                <th className="py-2 text-sm font-medium text-gray-200 px-0 md:px-0 border-b border-gray-500 w-20">
                   Image
                 </th>
                 <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
@@ -268,12 +282,12 @@ const BikeManagement = () => {
             </thead>
 
             <tbody className="bg-white divide-y divide-gray-300">
-              {filteredBikes.map((bike, index) => (
+              {filteredBikes.map((bike: TBike, index: number) => (
                 <tr key={bike._id} className="hover:bg-gray-100">
                   <td className="py-4 text-sm font-bold text-gray-800 px-2 md:px-4 text-center w-8">
                     {index + 1}
                   </td>
-                  <td className="text-sm text-gray-900 px-0 md:px-0">
+                  <td className="text-sm text-gray-900 px-0 md:px-0 w-20">
                     <img
                       src={bike.image}
                       alt={bike.name}
@@ -311,13 +325,13 @@ const BikeManagement = () => {
                   <td className="text-sm text-center flex justify-center gap-1 mx-4  text-gray-500 w-20 px-4 md:px-8   py-4">
                     <button
                       onClick={() => handleEditBike(bike)}
-                      className="text-green-600 bg-transparent border-none hover:text-green-800  "
+                      className="text-green-600 bg-transparent border-none hover:text-green-800  focus:outline-none"
                     >
                       <FaEdit className="w-4 h-4" aria-label="Edit Bike" />
                     </button>
                     <button
                       onClick={() => handleDeleteBike(bike._id)}
-                      className="text-red-600 bg-transparent border-none hover:text-red-800"
+                      className="text-red-600 bg-transparent border-none hover:text-red-800 focus:outline-none"
                     >
                       <FaTrashAlt
                         className="w-4 h-4"
@@ -334,7 +348,7 @@ const BikeManagement = () => {
 
       {isModalOpen && (
         <BikeModal
-          bike={selectedBike}
+          bike={selectedBike ?? undefined}
           onSubmit={handleModalSubmit}
           onClose={handleModalClose}
         />

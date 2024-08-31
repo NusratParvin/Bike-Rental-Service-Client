@@ -1,20 +1,20 @@
-import { useState } from "react";
+// import { useState } from "react";
 
 const UserManagement = () => {
-  const [users, setUsers] = useState([]); // Replace with actual data fetching
+  // const [users, setUsers] = useState([]); // Replace with actual data fetching
 
-  const handleDeleteUser = (userId: string) => {
-    // Logic to delete user
-  };
+  // const handleDeleteUser = (userId: string) => {
+  //   // Logic to delete user
+  // };
 
-  const handlePromoteUser = (userId: string) => {
-    // Logic to promote user to admin
-  };
+  // const handlePromoteUser = (userId: string) => {
+  //   // Logic to promote user to admin
+  // };
 
   return (
     <div>
       <h2>User Management</h2>
-      <ul>
+      {/* <ul>
         {users.map((user) => (
           <li key={user.id}>
             <span>
@@ -26,7 +26,7 @@ const UserManagement = () => {
             <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };
