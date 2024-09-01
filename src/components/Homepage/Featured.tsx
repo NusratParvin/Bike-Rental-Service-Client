@@ -8,7 +8,7 @@ import { useCurrentUser } from "../../redux/features/auth/authSlice";
 const BikeGrid = () => {
   const { data, isLoading } = useGetAllBikesQuery(undefined);
   const bikes = data?.data || [];
-
+  console.log(bikes);
   const isUser = useAppSelector(useCurrentUser);
 
   if (isLoading) {
@@ -22,7 +22,9 @@ const BikeGrid = () => {
   return (
     <div className="bg-transparent mt-24 mx-auto">
       <div className="mx-auto px-0 py-8">
-        <h1 className="text-4xl font-bold text-center mb-8">Available Bikes</h1>
+        <h1 className="text-7xl text-custom-green font-medium font-teko text-center my-12">
+          Our Featured Bikes
+        </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
           {availableBikes.map((bike: TBike) => (
             <div

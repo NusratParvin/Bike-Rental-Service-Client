@@ -1,5 +1,6 @@
 // import { Navbar } from "../components/Navbar";
 
+import ContactSection from "../components/Homepage/ContactSection";
 import Featured from "../components/Homepage/Featured";
 import Hero from "../components/Homepage/Hero";
 import Testimonial from "../components/Homepage/Testimonial";
@@ -13,6 +14,7 @@ export const Home = () => {
         <Featured />
         <WhyChooseUs />
         <Testimonial />
+        <ContactSection />
       </div>
     </div>
   );
