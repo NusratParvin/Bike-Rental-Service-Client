@@ -3,43 +3,35 @@ import { NavLink } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="flex flex-col space-y-10 justify-center m-10">
-      <nav className="flex justify-center flex-wrap gap-6 text-gray-500 font-medium">
+      <nav className="flex justify-center flex-wrap gap-6 text-white">
         <NavLink
           to="/"
-          className={({ isActive }) =>
-            isActive
-              ? "text-gray-900 hover:text-gray-900"
-              : "hover:text-gray-900"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-custom-green" : ""
           }
         >
           Home
         </NavLink>
         <NavLink
           to="/about"
-          className={({ isActive }) =>
-            isActive
-              ? "text-gray-900 hover:text-gray-900"
-              : "hover:text-gray-900"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-custom-green" : ""
           }
         >
           About
         </NavLink>
         <NavLink
           to="/services"
-          className={({ isActive }) =>
-            isActive
-              ? "text-gray-900 hover:text-gray-900"
-              : "hover:text-gray-900"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-custom-green" : ""
           }
         >
           Services
         </NavLink>
         <NavLink
           to="/media"
-          className={({ isActive }) =>
-            isActive
-              ? "text-gray-900 hover:text-gray-900"
-              : "hover:text-gray-900"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-custom-green" : ""
           }
         >
           Media
@@ -56,10 +48,8 @@ const Footer = () => {
         </NavLink>
         <NavLink
           to="/contact"
-          className={({ isActive }) =>
-            isActive
-              ? "text-gray-900 hover:text-gray-900"
-              : "hover:text-gray-900"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-custom-green" : ""
           }
         >
           Contact
@@ -114,7 +104,7 @@ const Footer = () => {
           />
         </a>
       </div>
-      <p className="text-center text-gray-700 font-medium">
+      <p className="text-center text-custom-green font-normal text-xs">
         &copy; 2022 Company Ltd. All rights reserved.
       </p>
     </footer>

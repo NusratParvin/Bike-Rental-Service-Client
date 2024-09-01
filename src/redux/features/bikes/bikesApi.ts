@@ -1,6 +1,4 @@
-// bikesApi.ts
-
-import { baseApi } from "../../api/baseApi";
+import baseApi from "../../api/baseApi";
 
 export const bikesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

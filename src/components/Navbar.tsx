@@ -12,14 +12,12 @@ import { logout, useCurrentUser } from "../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { AnimatePresence, motion } from "framer-motion";
 import { FlipLink } from "../utils/flipLink";
-
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isUser = useAppSelector(useCurrentUser);
-  // console.log(isUser);
 
   const toggleSubmenu = () => {
     setIsSubmenuOpen(!isSubmenuOpen);
@@ -27,7 +25,6 @@ export const Navbar = () => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    console.log(isOpen);
   };
 
   const handleLogout = () => {
@@ -36,9 +33,9 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className=" pt-4  pb-2">
-      <div className="hidden md:block">
-        <div className="grid grid-cols-4 items-center py-2 px-6 border-b border-gray-700">
+    <nav className="fixed top-0 left-0 right-0 z-50  pt-4 pb-2 bg-transparent ">
+      <div className="hidden md:block ">
+        <div className="grid grid-cols-4 items-center py-2 px-6 border-b border-gray-500   lg:w-11/12 w-full mx-auto">
           {/* Left side (logo) */}
           <div className="flex items-center text-white tracking-wide font-teko">
             <LuBike className="w-7 h-7 mr-2 animate-slide-in" />
@@ -60,19 +57,19 @@ export const Navbar = () => {
                 <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </li>
 
-              <li className="relative group hover:text-custom-green duration-300 px-4">
+              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
                 <Link
-                  to="/services"
+                  to="/about"
                   className="flex items-center justify-between cursor-pointer"
                 >
-                  SERVICES
+                  ABOUT
                   <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
                   <FaChevronDown className="ml-2 w-3 h-3" />
                 </Link>
                 <ul className="absolute z-50 left-0 top-full mt-2 w-40 bg-gray-800 text-white opacity-0 group-hover:opacity-100 transform scale-y-0 group-hover:scale-y-100 origin-top transition-all duration-300 ease-in-out">
                   <li className="px-4 py-2 hover:bg-gray-700 hover:text-custom-green">
                     <Link
-                      to="/services/web-development"
+                      to="/about/web-development"
                       className="cursor-pointer"
                     >
                       Web Development
@@ -80,7 +77,7 @@ export const Navbar = () => {
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-700 hover:text-custom-green">
                     <Link
-                      to="/services/app-development"
+                      to="/about/app-development"
                       className="cursor-pointer"
                     >
                       App Development
@@ -88,7 +85,7 @@ export const Navbar = () => {
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-700 hover:text-custom-green">
                     <Link
-                      to="/services/seo-optimization"
+                      to="/about/seo-optimization"
                       className="cursor-pointer"
                     >
                       SEO Optimization
@@ -97,9 +94,9 @@ export const Navbar = () => {
                 </ul>
               </li>
 
-              <li className="relative group hover:text-custom-green duration-300 px-4">
-                <Link to="/my-rentals" className="cursor-pointer">
-                  MY RENTALS
+              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
+                <Link to="/bike-listing" className="cursor-pointer">
+                  BIKE LISTING
                 </Link>
                 <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </li>
@@ -115,7 +112,7 @@ export const Navbar = () => {
                 <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </li>
 
-              <li className="relative group hover:text-custom-green duration-300 px-4">
+              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
                 <Link to="/contacts" className="cursor-pointer">
                   CONTACTS
                 </Link>
@@ -208,8 +205,8 @@ export const Navbar = () => {
 
           <li className="relative group hover:text-custom-green duration-300 px-4   ">
             <span className="flex items-center  ">
-              <Link to="/services" className="cursor-pointer">
-                SERVICES{" "}
+              <Link to="/about" className="cursor-pointer">
+                ABOUT
               </Link>
 
               <FaChevronDown className="ml-2" onClick={toggleSubmenu} />
@@ -222,21 +219,18 @@ export const Navbar = () => {
               } transform origin-top transition-all duration-700 ease-in-out`}
             >
               <li className="hover:bg-gray-800 hover:text-custom-green px-2 py-1">
-                <Link to="/services/web-development" className="cursor-pointer">
+                <Link to="/about/web-development" className="cursor-pointer">
                   Web Development
                 </Link>
               </li>
 
               <li className="hover:bg-gray-800 hover:text-custom-green px-2 py-1">
-                <Link to="/services/app-development" className="cursor-pointer">
+                <Link to="/about/app-development" className="cursor-pointer">
                   App Development
                 </Link>
               </li>
               <li className="hover:bg-gray-800 hover:text-custom-green px-2 py-1">
-                <Link
-                  to="/services/seo-optimization"
-                  className="cursor-pointer"
-                >
+                <Link to="/about/seo-optimization" className="cursor-pointer">
                   SEO Optimization
                 </Link>
               </li>
@@ -244,8 +238,8 @@ export const Navbar = () => {
           </li>
 
           <li className="relative group hover:text-custom-green duration-300 px-4  ">
-            <Link to="/my-rentals" className="cursor-pointer">
-              MY RENTALS
+            <Link to="/bike-listing" className="cursor-pointer">
+              BIKE LISTING
             </Link>
           </li>
 

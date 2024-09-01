@@ -5,7 +5,6 @@ import { TBike } from "../../types/bike";
 import Spinner from "../Spinner";
 
 const BikeListing = () => {
-  // State initialization
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     priceRange: "",
@@ -16,14 +15,22 @@ const BikeListing = () => {
   const [sortOrder, setSortOrder] = useState("");
 
   const { data, isLoading } = useGetAllBikesQuery(undefined);
-
   const bikes: TBike[] = data?.data || [];
+
+  // Dynamic filter options
+  const filterOptions = {
+    priceRange: ["All", "500", "1000", "2000", "5000"],
+    brand: ["All", ...Array.from(new Set(bikes.map((bike) => bike.brand)))],
+    model: ["All", ...Array.from(new Set(bikes.map((bike) => bike.model)))],
+    availability: ["All", "Available", "Unavailable"],
+  };
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
   };
+
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOrder(e.target.value);
   };
@@ -75,13 +82,6 @@ const BikeListing = () => {
         : b.pricePerHour - a.pricePerHour
     );
 
-  const filterOptions = {
-    priceRange: ["All", "500", "1000", "2000", "5000"],
-    brand: ["All", "Giant", "Trek", "Canyon", "Yamaha"],
-    model: [...new Set(bikes.map((bike) => bike.model))],
-    availability: ["All", "Available", "Unavailable"],
-  };
-
   return (
     <div className="w-full mx-auto py-0 mb-8 border bg-gray-200 text-gray-700">
       <div className="flex py-12 px-4 md:flex-row flex-col">
@@ -95,7 +95,7 @@ const BikeListing = () => {
               name="brand"
               value={filters.brand}
               onChange={handleInputChange}
-              className=" focus:outline-none py-1 px-2 w-full bg-gray-300"
+              className="focus:outline-none py-1 px-2 w-full bg-gray-300"
             >
               <option value="">Brand</option>
               {filterOptions.brand.map((option) => (
@@ -111,7 +111,7 @@ const BikeListing = () => {
               name="model"
               value={filters.model}
               onChange={handleInputChange}
-              className=" focus:outline-none py-1 px-2 w-full bg-gray-300"
+              className="focus:outline-none py-1 px-2 w-full bg-gray-300"
             >
               <option value="">Model</option>
               {filterOptions.model.map((option) => (
@@ -127,7 +127,7 @@ const BikeListing = () => {
               name="priceRange"
               value={filters.priceRange}
               onChange={handleInputChange}
-              className=" focus:outline-none py-1 px-2 w-full bg-gray-300"
+              className="focus:outline-none py-1 px-2 w-full bg-gray-300"
             >
               <option value="">Price Range</option>
               {filterOptions.priceRange.map((option) => (
@@ -143,7 +143,7 @@ const BikeListing = () => {
               name="availability"
               value={filters.availability}
               onChange={handleInputChange}
-              className=" focus:outline-none py-1 px-2 w-full bg-gray-300"
+              className="focus:outline-none py-1 px-2 w-full bg-gray-300"
             >
               <option value="">Availability</option>
               {filterOptions.availability.map((option) => (
@@ -156,13 +156,13 @@ const BikeListing = () => {
 
           <button
             onClick={clearFilters}
-            className="bg-custom-green text-white py-2 px-4 hover:bg-green-600  focus:outline-none transition duration-300 w-full rounded-none mt-8"
+            className="bg-custom-green text-white py-2 px-4 hover:bg-green-600 focus:outline-none transition duration-300 w-full rounded-none mt-8"
           >
             Clear Filters
           </button>
         </div>
 
-        <main className="md:w-3/4 w-full ps-4">
+        <main className="md:w-4/5 w-full">
           <div className="flex flex-col justify-evenly">
             <div className="flex flex-row justify-between items-center mb-4 md:gap-0 gap-2">
               <div className="md:w-1/3 w-1/2 flex items-center gap-2">
@@ -172,7 +172,7 @@ const BikeListing = () => {
                   placeholder="Search by name"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className=" focus:outline-none py-1 px-2 w-full bg-gray-300"
+                  className="focus:outline-none py-1 px-2 w-full bg-gray-300"
                 />
               </div>
 
@@ -181,7 +181,7 @@ const BikeListing = () => {
                   name="sortOrder"
                   value={sortOrder}
                   onChange={handleSortChange}
-                  className="focus:outline-none  py-1 px-2 w-full bg-gray-300"
+                  className="focus:outline-none py-1 px-2 w-full bg-gray-300"
                 >
                   <option value="">Sort By Price</option>
                   <option value="asc">Ascending</option>
@@ -194,19 +194,14 @@ const BikeListing = () => {
               {isLoading ? (
                 <Spinner />
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2  gap-2 py-6 mb-24 ">
-                  {/* {
-                  filteredBikes?.map((bike: TBike) => (
-                    <SingleBike key={bike._id} bike={bike} />
-                  ))
-                  } */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-6 mb-24 overflow-hidden">
                   {filteredBikes && filteredBikes.length > 0 ? (
                     filteredBikes.map((bike: TBike) => (
                       <SingleBike key={bike._id} bike={bike} />
                     ))
                   ) : (
                     <div className="flex justify-center items-center py-6">
-                      <div className="bg-transparent text-gray-700 px-4 py-3">
+                      <div className="bg-transparent text-white text-xl px-4 py-3">
                         <strong className="font-bold">No Data Found</strong>
                       </div>
                     </div>

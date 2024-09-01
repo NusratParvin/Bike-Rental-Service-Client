@@ -5,11 +5,14 @@ import Spinner from "../Spinner";
 import LoadingError from "../LoadingError";
 import { TBike } from "../../types/bike";
 import PaymentModal from "../Payment/PaymentModal";
+import { useAppSelector } from "../../redux/hooks";
+import { useCurrentUser } from "../../redux/features/auth/authSlice";
 
 const BikeDetails = () => {
   const { bikeId } = useParams();
   const { data, error, isLoading } = useGetBikeByIdQuery(bikeId);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const isUser = useAppSelector(useCurrentUser);
 
   const defaultImageUrl =
     "https://images.unsplash.com/photo-1525013066836-c6090f0ad9d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bW90b3JiaWtlfGVufDB8fDB8fHww";
@@ -22,7 +25,8 @@ const BikeDetails = () => {
   const bike: TBike = data.data;
 
   return (
-    <section className="w-11/12 mx-auto">
+    // <section className="w-11/12 mx-auto my-28">
+    <section className={`w-11/12 mx-auto ${isUser ? "mt-28 h-screen" : ""}`}>
       <div className="m-4 mx-auto max-w-screen-lg text-white shadow-2xl">
         <div className="relative flex h-full flex-col-reverse md:flex-row">
           <div className="relative p-8 md:w-4/6">
@@ -67,7 +71,7 @@ const BikeDetails = () => {
           </div>
           <div className="mx-auto flex items-center px-5 pt-1 md:p-8">
             <img
-              className="block h-auto max-w-full rounded-none shadow-2xl"
+              className="block h-72 max-w-full rounded-none shadow-2xl"
               src={bike.image || defaultImageUrl}
               alt={bike.name}
             />

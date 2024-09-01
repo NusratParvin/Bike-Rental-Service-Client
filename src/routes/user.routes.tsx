@@ -2,10 +2,10 @@ import { Navigate } from "react-router-dom";
 import MyProfile from "../components/MyProfile";
 import Payment from "../components/Payment/Payment";
 import BikeDetails from "../components/User/BikeDetails";
-import BikeListing from "../components/User/BikeListing";
 import MyRentalsPage from "../components/User/MyRentals";
 import ProtectedDashboardLayout from "../layouts/ProtectedDashboardLayout";
 import Dashboard from "../pages/Dashboard";
+import BikeListing from "../components/User/BikeListing";
 
 export const userRoutes = {
   path: "/user",

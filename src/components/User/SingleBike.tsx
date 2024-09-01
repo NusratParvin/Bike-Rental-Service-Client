@@ -10,7 +10,7 @@ type Props = {
 
 const SingleBike: React.FC<Props> = ({ bike }) => {
   return (
-    <div className="mx-auto mt-0 w-[320px] transform overflow-hidden bg-white dark:bg-black/80 shadow-md duration-300 hover:shadow-lg">
+    <div className="mx-auto mt-0 w-[250px] transform overflow-hidden bg-white dark:bg-black/80 shadow-md duration-300 hover:shadow-lg">
       <img
         className="h-44 w-full  hover:scale-110 transition-transform duration-500 object-cover object-center"
         src={bike.image || imageUrl}

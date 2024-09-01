@@ -116,15 +116,6 @@ const BikeManagement = () => {
     return matchesBrand && matchesModel && matchesAvailability && matchesName;
   });
 
-  if (isLoading) return <Spinner />;
-
-  if (error) return <LoadingError />;
-
-  if (!filteredBikes.length)
-    return (
-      <div className="flex justify-center items-center">No Data Found</div>
-    );
-
   return (
     <div className="mx-auto max-w-screen-lg bg-transparent">
       <div className="md:flex md:items-center md:justify-between flex-col md:flex-row">
@@ -213,7 +204,7 @@ const BikeManagement = () => {
                 />
               </div>
 
-              <section className="flex justify-center items-center mt-5 ps-6 ms-8  ">
+              <section className="flex justify-center items-center mt-5 ps-6 ms-8">
                 <button
                   onClick={() => {
                     setSelectedBrand("All");
@@ -230,7 +221,7 @@ const BikeManagement = () => {
                 </button>
               </section>
 
-              <section className="flex justify-center items-center mt-5 ps-6 ">
+              <section className="flex justify-center items-center mt-5 ps-6">
                 <button
                   onClick={handleCreateBike}
                   className="group flex justify-center py-0 px-2 rounded-none drop-shadow-xl bg-custom-green from-gray-800 to-black text-white text-xl focus:outline-none hover:translate-y-2 hover:rounded-[50%] transition-all duration-500 hover:from-[#331029] hover:to-[#310413]"
@@ -246,105 +237,118 @@ const BikeManagement = () => {
         </div>
       </div>
 
-      <div className="mt-3 overflow-hidden rounded-none shadow bg-gray-300">
-        <div className="md:overflow-hidden overflow-x-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-200">
-          <table className="min-w-full border-collapse border border-black/80 whitespace-nowrap">
-            <thead className="bg-green-600 text-white">
-              <tr>
-                <th className="py-2 text-sm font-medium text-gray-200 px-2 md:px-4 border-b border-gray-500 w-8  ">
-                  #
-                </th>
-                <th className="py-2 text-sm font-medium text-gray-200 px-0 md:px-0 border-b border-gray-500 w-20">
-                  Image
-                </th>
-                <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
-                  Name
-                </th>
-                <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
-                  Brand
-                </th>
-                <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
-                  Model
-                </th>
-                <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
-                  Description
-                </th>
-                <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
-                  Price/Hour
-                </th>
-                <th className="py-2 text-sm font-medium text-gray-200 border-b border-gray-500 w-12 text-center">
-                  Availability
-                </th>
-                <th className="py-2 text-sm font-medium text-gray-200 border-b border-gray-500 w-20 text-center">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-
-            <tbody className="bg-white divide-y divide-gray-300">
-              {filteredBikes.map((bike: TBike, index: number) => (
-                <tr key={bike._id} className="hover:bg-gray-100">
-                  <td className="py-4 text-sm font-bold text-gray-800 px-2 md:px-4 text-center w-8">
-                    {index + 1}
-                  </td>
-                  <td className="text-sm text-gray-900 px-0 md:px-0 w-20">
-                    <img
-                      src={bike.image}
-                      alt={bike.name}
-                      className="w-full h-16 object-cover"
-                    />
-                  </td>
-                  <td className="text-sm font-semibold text-gray-900 px-4 md:px-6">
-                    {bike.name}
-                  </td>
-                  <td className="text-sm text-gray-900 px-4 md:px-6">
-                    {bike.brand}
-                  </td>
-                  <td className="text-sm text-gray-900 px-4 md:px-6">
-                    {bike.model}
-                  </td>
-                  <td className="text-sm text-gray-500 px-4 md:px-6">
-                    {bike.description}
-                  </td>
-                  <td className="text-sm text-gray-500 px-4 md:px-6">
-                    ${bike.pricePerHour}
-                  </td>
-                  <td className="text-sm text-center text-gray-500 w-12">
-                    {bike.isAvailable ? (
-                      <FaCheckCircle
-                        className="text-green-600 w-4 h-4 mx-auto"
-                        aria-label="Available"
-                      />
-                    ) : (
-                      <FaTimesCircle
-                        className="text-red-600 w-4 h-4 mx-auto"
-                        aria-label="Unavailable"
-                      />
-                    )}
-                  </td>
-                  <td className="text-sm text-center flex justify-center gap-1 mx-4  text-gray-500 w-20 px-4 md:px-8   py-4">
-                    <button
-                      onClick={() => handleEditBike(bike)}
-                      className="text-green-600 bg-transparent border-none hover:text-green-800  focus:outline-none"
-                    >
-                      <FaEdit className="w-4 h-4" aria-label="Edit Bike" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteBike(bike._id)}
-                      className="text-red-600 bg-transparent border-none hover:text-red-800 focus:outline-none"
-                    >
-                      <FaTrashAlt
-                        className="w-4 h-4"
-                        aria-label="Delete Bike"
-                      />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/* Conditional Rendering for Table or Messages */}
+      {isLoading ? (
+        <Spinner />
+      ) : error ? (
+        <LoadingError />
+      ) : !filteredBikes.length ? (
+        <div className="flex justify-center items-center py-6  mt-24">
+          <div className="bg-transparent text-gray-100 text-2xl px-4 py-3">
+            <strong className="font-bold">No Data Found</strong>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="mt-3 overflow-hidden rounded-none shadow bg-gray-300">
+          <div className="md:overflow-hidden overflow-x-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-200">
+            <table className="min-w-full border-collapse border border-black/80 whitespace-nowrap">
+              <thead className="bg-green-600 text-white">
+                <tr>
+                  <th className="py-2 text-sm font-medium text-gray-200 px-2 md:px-4 border-b border-gray-500 w-8  ">
+                    #
+                  </th>
+                  <th className="py-2 text-sm font-medium text-gray-200 px-0 md:px-0 border-b border-gray-500 w-20">
+                    Image
+                  </th>
+                  <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
+                    Name
+                  </th>
+                  <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
+                    Brand
+                  </th>
+                  <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
+                    Model
+                  </th>
+                  <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
+                    Description
+                  </th>
+                  <th className="py-2 text-sm font-medium text-gray-200 px-4 md:px-6 border-b border-gray-500">
+                    Price/Hour
+                  </th>
+                  <th className="py-2 text-sm font-medium text-gray-200 border-b border-gray-500 w-12 text-center">
+                    Availability
+                  </th>
+                  <th className="py-2 text-sm font-medium text-gray-200 border-b border-gray-500 w-20 text-center">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody className="bg-white divide-y divide-gray-300">
+                {filteredBikes.map((bike: TBike, index: number) => (
+                  <tr key={bike._id} className="hover:bg-gray-100">
+                    <td className="py-4 text-sm font-bold text-gray-800 px-2 md:px-4 text-center w-8">
+                      {index + 1}
+                    </td>
+                    <td className="text-sm text-gray-900 px-0 md:px-0 w-20">
+                      <img
+                        src={bike.image}
+                        alt={bike.name}
+                        className="w-full h-16 object-cover"
+                      />
+                    </td>
+                    <td className="text-sm font-semibold text-gray-900 px-4 md:px-6">
+                      {bike.name}
+                    </td>
+                    <td className="text-sm text-gray-900 px-4 md:px-6">
+                      {bike.brand}
+                    </td>
+                    <td className="text-sm text-gray-900 px-4 md:px-6">
+                      {bike.model}
+                    </td>
+                    <td className="text-sm text-gray-500 px-4 md:px-6">
+                      {bike.description}
+                    </td>
+                    <td className="text-sm text-gray-500 px-4 md:px-6">
+                      ${bike.pricePerHour}
+                    </td>
+                    <td className="text-sm text-center text-gray-500 w-12">
+                      {bike.isAvailable ? (
+                        <FaCheckCircle
+                          className="text-green-600 w-4 h-4 mx-auto"
+                          aria-label="Available"
+                        />
+                      ) : (
+                        <FaTimesCircle
+                          className="text-red-600 w-4 h-4 mx-auto"
+                          aria-label="Unavailable"
+                        />
+                      )}
+                    </td>
+                    <td className="text-sm text-center flex justify-center gap-1 mx-4  text-gray-500 w-20 px-4 md:px-8   py-4">
+                      <button
+                        onClick={() => handleEditBike(bike)}
+                        className="text-green-600 bg-transparent border-none hover:text-green-800  focus:outline-none"
+                      >
+                        <FaEdit className="w-4 h-4" aria-label="Edit Bike" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteBike(bike._id)}
+                        className="text-red-600 bg-transparent border-none hover:text-red-800 focus:outline-none"
+                      >
+                        <FaTrashAlt
+                          className="w-4 h-4"
+                          aria-label="Delete Bike"
+                        />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {isModalOpen && (
         <BikeModal
