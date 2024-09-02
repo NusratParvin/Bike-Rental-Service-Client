@@ -32,9 +32,9 @@ const Hero = () => {
       </div>
 
       <div className="relative z-10 flex flex-col justify-center h-full">
-        <div className="mt-auto mb-[15%] w-full max-w-md mx-auto text-center">
+        <div className="mt-auto mb-[25%] md:mb-[15%] w-full max-w-md mx-auto text-center ">
           <p className="text-xl text-gray-300 mb-4">
-            Discover amazing rides that await you.
+            Discover amazing rides that awaits you.
           </p>
 
           <form onSubmit={handleSubmit}>
@@ -59,7 +59,7 @@ const Hero = () => {
                 </select>
                 <button
                   type="submit"
-                  className="bg-custom-green text-white text-base rounded-none px-4 py-2"
+                  className="bg-custom-green text-white text-base rounded-none px-4 py-2 border border-custom-green"
                 >
                   Search
                 </button>

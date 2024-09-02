@@ -6,9 +6,12 @@ import { adminRoutes } from "./admin.routes";
 import { userRoutes } from "./user.routes";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
-import About from "../pages/About";
 import BikeDetails from "../components/User/BikeDetails";
 import BikeListing from "../pages/BikeListing";
+import WhoAreWE from "../components/About/WhoAreWe";
+import History from "../components/About/History";
+import ContactInfo from "../pages/ContactInfo";
+import NotFound from "../components/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -20,8 +23,16 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/about",
-        element: <About />,
+        path: "/about/who-are-we",
+        element: <WhoAreWE />,
+      },
+      {
+        path: "/about/history",
+        element: <History />,
+      },
+      {
+        path: "/contact-info",
+        element: <ContactInfo />,
       },
       {
         path: "/bike-listing",
@@ -39,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

@@ -73,7 +73,7 @@ const Dashboard = () => {
           ))}
         </nav>
 
-        <main className="pt-28 lg:pt-6 py-8 md:p-4 md:ms-28 min-h-screen">
+        <main className="pt-28 lg:pt-6 py-8 md:p-4 md:ms-28 min-h-screen ">
           <Outlet />
         </main>
       </section>

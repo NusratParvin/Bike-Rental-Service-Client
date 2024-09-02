@@ -6,7 +6,7 @@ import { useGetRentalsQuery } from "../../redux/features/rentals/rentalApi";
 
 const MyRentalsPage = () => {
   const [activeTab, setActiveTab] = useState<"Paid" | "Unpaid">("Unpaid");
-  const { data: rentalsResponse = { data: [] } } =
+  const { data: rentalsResponse = { data: [] }, error } =
     useGetRentalsQuery(undefined);
 
   const rentals = rentalsResponse.data;
@@ -23,7 +23,7 @@ const MyRentalsPage = () => {
       return rental.paymentStatus === "advanced";
     }
   });
-
+  console.log(filteredRentals, error);
   return (
     <div>
       <div className="flex justify-center mb-4 pb-0 border-b border-gray-700/60">
@@ -63,7 +63,7 @@ const MyRentalsPage = () => {
             <div
               className="w-full bg-gray-300 bg-center bg-cover rounded-none shadow-md h-48"
               style={{
-                backgroundImage: `url(${rental.bikeId.image})`,
+                backgroundImage: `url(${rental?.bikeId?.image})`,
               }}
             ></div>
 
@@ -86,7 +86,7 @@ const MyRentalsPage = () => {
                     <p className="text-sm text-red-500">Not returned yet</p>
                   )}
                 </div>
-                <div className="flex items-center justify-between mt-2">
+                {/* <div className="flex items-center justify-between mt-2">
                   <span className="font-bold text-gray-800">
                     Cost: $
                     {rental.returnTime ? rental.totalCost : "100 (Advanced)"}
@@ -104,6 +104,77 @@ const MyRentalsPage = () => {
                     >
                       Pay Now
                     </Link>
+                  )}
+                </div> */}
+
+                {/* <div className="flex items-center justify-between mt-2">
+                  <span className="font-bold text-gray-800">
+                    Cost: $
+                    {rental.returnTime ? rental.totalCost : "100 (Advanced)"}
+                  </span>
+                  {rental.returnTime && (
+                    <>
+                      {rental.totalCost < 100 ? (
+                        <span className="text-sm font-semibold text-blue-600">
+                          Change Due: ${100 - rental.totalCost}
+                        </span>
+                      ) : (
+                        <Link
+                          to="../payment"
+                          state={{
+                            amount: rental.totalCost - 100,
+                            bikeId: rental.bikeId._id,
+                            rentalId: rental._id,
+                            isRemainderPayment: true,
+                          }}
+                          className="px-2 py-1 text-sm rounded-none text-white uppercase transition-colors duration-300 transform bg-custom-green hover:bg-green-700 focus:outline-none"
+                        >
+                          Pay Now
+                        </Link>
+                      )}
+                    </>
+                  )}
+                </div> */}
+
+                <div className="flex items-center justify-between mt-2">
+                  <span className="font-bold text-gray-800">
+                    Cost: $
+                    {rental.returnTime ? rental.totalCost : "100 (Advanced)"}
+                  </span>
+
+                  {rental.returnTime && (
+                    <>
+                      {rental.paymentStatus === "paid" ? (
+                        rental.totalCost < 100 ? (
+                          <span className="text-sm font-semibold text-blue-600">
+                            Change: ${100 - rental.totalCost}
+                          </span>
+                        ) : (
+                          <span className="text-sm font-semibold text-green-600">
+                            Fully Paid
+                          </span>
+                        )
+                      ) : rental.paymentStatus === "advanced" ? (
+                        rental.totalCost > 100 && (
+                          <Link
+                            to="../payment"
+                            state={{
+                              amount: rental.totalCost - 100,
+                              bikeId: rental.bikeId._id,
+                              rentalId: rental._id,
+                              isRemainderPayment: true,
+                            }}
+                            className="px-2 py-1 text-sm rounded-none text-white uppercase transition-colors duration-300 transform bg-custom-green hover:bg-green-700 focus:outline-none"
+                          >
+                            Pay Now
+                          </Link>
+                        )
+                      ) : (
+                        <span className="text-sm font-semibold text-gray-600">
+                          Payment Pending
+                        </span>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

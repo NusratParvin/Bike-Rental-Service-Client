@@ -16,7 +16,7 @@ const Payment = () => {
 
   // Extract details from state
   const isRemainderPayment = state?.isRemainderPayment || false;
-  const amount = state?.amount;
+  const amount = parseInt(state?.amount, 10);
   const bikeId = state?.bikeId || "";
   const rentalId = state?.rentalId || "";
   const startTime = state?.startTime || "";

@@ -6,12 +6,10 @@ const userApi = baseApi.injectEndpoints({
       query: () => ({
         url: "/users/me",
         method: "GET",
-        // headers: {
-        //   Authorization: token,
-        // },
       }),
       providesTags: ["User"],
     }),
+
     updateUser: builder.mutation({
       query: ({ token, updatedUserInfo }) => ({
         url: "/users/me",
@@ -23,7 +21,38 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+
+    getAllUsers: builder.query({
+      query: () => ({
+        url: "/users",
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+
+    deleteUser: builder.mutation({
+      query: (userId) => ({
+        url: `/users/${userId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    promoteUserToAdmin: builder.mutation({
+      query: ({ userId, role }) => ({
+        url: `/users/${userId}`,
+        method: "PUT",
+        body: { role },
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
-export const { useGetUserInfoQuery, useUpdateUserMutation } = userApi;
+export const {
+  useGetUserInfoQuery,
+  useUpdateUserMutation,
+  useGetAllUsersQuery,
+  useDeleteUserMutation,
+  usePromoteUserToAdminMutation,
+} = userApi;

@@ -13,7 +13,7 @@ const Footer = () => {
           Home
         </NavLink>
         <NavLink
-          to="/about"
+          to="/about/who-are-we"
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "text-custom-green" : ""
           }
@@ -21,39 +21,23 @@ const Footer = () => {
           About
         </NavLink>
         <NavLink
-          to="/services"
+          to="/bike-listing"
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "text-custom-green" : ""
           }
         >
-          Services
-        </NavLink>
+          Bike Listing
+        </NavLink>{" "}
         <NavLink
-          to="/media"
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "text-custom-green" : ""
-          }
-        >
-          Media
-        </NavLink>
-        <NavLink
-          to="/gallery"
-          className={({ isActive }) =>
-            isActive
-              ? "text-gray-900 hover:text-gray-900"
-              : "hover:text-gray-900"
-          }
-        >
-          Gallery
-        </NavLink>
-        <NavLink
-          to="/contact"
+          to="/contact-info"
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "text-custom-green" : ""
           }
         >
           Contact
         </NavLink>
+        <div className="hover:text-custom-green">Privacy Policy</div>
+        <div className="hover:text-custom-green">Terms of Service</div>
       </nav>
 
       <div className="flex justify-center space-x-5">

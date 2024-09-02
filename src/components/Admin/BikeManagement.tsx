@@ -15,6 +15,8 @@ import {
 import BikeModal from "./BikeModal";
 import Spinner from "../Spinner";
 import LoadingError from "../LoadingError";
+import ConfirmationModal from "../ConfirmationModal";
+import { toast } from "sonner";
 
 const BikeManagement = () => {
   const {
@@ -28,6 +30,8 @@ const BikeManagement = () => {
   const [deleteBike] = useDeleteBikeMutation();
   const [selectedBike, setSelectedBike] = useState<TBike | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [bikeToDelete, setBikeToDelete] = useState<string | null>(null);
 
   const [filter, setFilter] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("All");
@@ -59,11 +63,21 @@ const BikeManagement = () => {
   };
 
   const handleDeleteBike = async (bikeId: string) => {
-    try {
-      await deleteBike(bikeId).unwrap();
-      refetch();
-    } catch (error) {
-      console.error("Failed to delete bike", error);
+    setBikeToDelete(bikeId);
+    setIsConfirmModalOpen(true);
+  };
+
+  const confirmDeleteBike = async () => {
+    if (bikeToDelete) {
+      try {
+        await deleteBike(bikeToDelete).unwrap();
+        refetch();
+      } catch (error) {
+        console.error("Failed to delete bike", error);
+      } finally {
+        setIsConfirmModalOpen(false);
+        setBikeToDelete(null);
+      }
     }
   };
 
@@ -72,18 +86,48 @@ const BikeManagement = () => {
   };
 
   const handleModalSubmit = async (bikeData: Omit<TBike, "_id">) => {
+    const toastId = toast.loading("Processing...");
+
+    // try {
+    //   if (selectedBike) {
+    //     const id = selectedBike?._id;
+    //     await updateBike({ id, ...bikeData }).unwrap();
+    //   } else {
+    //     await createBike(bikeData).unwrap();
+    //   }
+    //   refetch();
+    // } catch (error) {
+    //   console.error("Failed to save bike", error);
+    // }
+    // setIsModalOpen(false);
     try {
       if (selectedBike) {
         const id = selectedBike?._id;
         await updateBike({ id, ...bikeData }).unwrap();
+        toast.success("Bike updated successfully!", {
+          id: toastId,
+          duration: 2000,
+          className: "text-green-600",
+        });
       } else {
         await createBike(bikeData).unwrap();
+        toast.success("Bike created successfully!", {
+          id: toastId,
+          duration: 2000,
+          className: "text-green-600",
+        });
       }
       refetch();
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(`Failed: ${error?.data?.message}`, {
+        id: toastId,
+        duration: 2000,
+        className: "text-red-600",
+      });
       console.error("Failed to save bike", error);
+    } finally {
+      setIsModalOpen(false);
     }
-    setIsModalOpen(false);
   };
 
   const handleFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -237,14 +281,13 @@ const BikeManagement = () => {
         </div>
       </div>
 
-      {/* Conditional Rendering for Table or Messages */}
       {isLoading ? (
         <Spinner />
       ) : error ? (
         <LoadingError />
       ) : !filteredBikes.length ? (
-        <div className="flex justify-center items-center py-6  mt-24">
-          <div className="bg-transparent text-gray-100 text-2xl px-4 py-3">
+        <div className="flex justify-center items-center py-6  mt-12">
+          <div className="bg-transparent text-white text-2xl px-4 py-3">
             <strong className="font-bold">No Data Found</strong>
           </div>
         </div>
@@ -306,7 +349,7 @@ const BikeManagement = () => {
                     <td className="text-sm text-gray-900 px-4 md:px-6">
                       {bike.model}
                     </td>
-                    <td className="text-sm text-gray-500 px-4 md:px-6">
+                    <td className="text-sm text-gray-500 px-4 md:px-6 whitespace-normal break-words max-w-[200px]">
                       {bike.description}
                     </td>
                     <td className="text-sm text-gray-500 px-4 md:px-6">
@@ -325,10 +368,10 @@ const BikeManagement = () => {
                         />
                       )}
                     </td>
-                    <td className="text-sm text-center flex justify-center gap-1 mx-4  text-gray-500 w-20 px-4 md:px-8   py-4">
+                    <td className="text-sm text-center flex items-center justify-center gap-1 mx-4 text-gray-500 w-20 px-4 md:px-8 py-4">
                       <button
                         onClick={() => handleEditBike(bike)}
-                        className="text-green-600 bg-transparent border-none hover:text-green-800  focus:outline-none"
+                        className="text-green-600 bg-transparent border-none hover:text-green-800 focus:outline-none"
                       >
                         <FaEdit className="w-4 h-4" aria-label="Edit Bike" />
                       </button>
@@ -355,6 +398,15 @@ const BikeManagement = () => {
           bike={selectedBike ?? undefined}
           onSubmit={handleModalSubmit}
           onClose={handleModalClose}
+        />
+      )}
+
+      {/* Confirmation Modal */}
+      {isConfirmModalOpen && (
+        <ConfirmationModal
+          onConfirm={confirmDeleteBike}
+          onCancel={() => setIsConfirmModalOpen(false)}
+          message="Are you sure you want to delete this bike?"
         />
       )}
     </div>

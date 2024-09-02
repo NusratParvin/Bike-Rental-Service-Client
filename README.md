@@ -1,51 +1,121 @@
-# React + TypeScript + Vite
+<div align="center">
+  <h1>Bike Rental Service Website - Frontend</h1>
+</div>
+---
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Introduction
 
-Currently, two official plugins are available:
+The frontend for the Bike Rental Service Website provides a user-friendly interface for browsing and booking bikes. It offers features like user authentication, bike management, and rental processing, with a clean and responsive design.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Live Demo](https://bike-rental-service-client.vercel.app/)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- User Authentication (Sign Up, Login, Logout).
+- User Profile Management.
+- Bike Listing with advanced filtering and search functionality.
+- Detailed Bike View with booking options.
+- Rental Management with payment processing.
+- Admin Dashboard for bike, user, and coupon management.
+- Responsive design for all devices.
+- Additional features like coupons, side-by-side bike comparison, and dark mode.
 
-- Configure the top-level `parserOptions` property like this:
+## Technology Stack
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Frontend:** React, Redux, TailwindCSS
+- **Image Hosting:** Cloudinary
+- **Payment:** Stripe
+- **Hosting:** Vercel
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Installation Guideline
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Prerequisites
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
-"# Bike-Rental-Service-Client" 
+- Node.js installed on your machine.
+- Backend service for the API.
+
+### Installation Steps
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/NusratParvin/Bike-Rental-Service-Client
+   cd bike-rental-service-frontend
+   ```
+
+### Install dependencies:
+
+````bash
+npm install
+
+
+### Set up environment variables:
+
+1. Create a `.env` file in the root directory.
+2. Add the following environment variables:
+
+```bash
+REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_STRIPE_PUBLIC_KEY=your_stripe_public_key
+
+### Run the application:
+
+```bash
+npm start
+
+## Usage
+
+### User Journey
+
+#### Sign Up or Login:
+
+- Users can sign up with their details or log in to access the dashboard.
+
+#### Browse Bikes:
+
+- Use the home page search bar to find available bikes.
+- Filter bikes by brand, model, or availability.
+
+#### Book a Bike:
+
+- View detailed bike information and book a bike by choosing a start time and proceeding to payment.
+
+#### Manage Rentals:
+
+- Access the "My Rentals" page to manage current rentals, make payments, or view past rentals.
+
+#### Admin Access:
+
+- Admin users can manage bikes, users, and coupons through the Admin Dashboard.
+
+## Screenshots
+
+_Screenshots of the application go here._
+
+## Error Handling
+
+- **API Failures:** Displayed via toast notifications.
+- **Form Validation Errors:** Shown next to the respective fields.
+- **No Data Handling:** Friendly messages when no bikes or rentals are available.
+- **404 Page:** Custom-designed for unmatched routes.
+
+## UI/UX
+
+- **Design:** Clean, modern, and user-friendly.
+- **Responsiveness:** Fully responsive across mobile, tablet, and desktop.
+- **Dark Mode:** Toggle between light and dark mode.
+
+## Bonus Features
+
+- **Coupon Functionality:** Users can apply discount coupons during checkout.
+- **Side-by-Side Comparison:** Compare multiple bikes.
+- **Micro-Animations:** Enhance user experience with subtle animations.
+
+## Deliverables
+
+- Fully functional frontend integrated with the backend.
+- Responsive design for all pages.
+- User and Admin dashboards with described features.
+- Clean, well-organized, and documented code.
+
+
+````

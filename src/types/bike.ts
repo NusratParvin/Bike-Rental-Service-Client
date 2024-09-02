@@ -17,3 +17,8 @@ export type TBikeError = {
   message: string;
   data: TBike[] | null;
 };
+
+export type TAdminBike = {
+  _id: string;
+  name: string;
+};

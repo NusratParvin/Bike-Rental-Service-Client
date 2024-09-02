@@ -8,6 +8,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { toast } from "sonner";
+import PaymentSuccess from "./Success";
 
 type CheckoutFormProps = {
   amount: number;
@@ -130,19 +131,20 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
   return (
     <form onSubmit={handleSubmit}>
       {transactionId ? (
-        <div className="w-2/3 mx-auto my-8 text-center py-24 px-8">
-          <p className="text-green-600 font-semibold">
+        <div className="md:w-2/3 w-full mx-auto my-8 text-center pb-36 px-8">
+          {/* <p className="text-green-600 font-semibold">
             Your transaction is completed successfully!
           </p>
           <p className="text-base pt-2 text-gray-300">
             ${amount} has been credited from your account !
             <br />
             Transaction ID # {transactionId}
-          </p>
+          </p> */}
+          <PaymentSuccess />
         </div>
       ) : (
         <>
-          <CardElement
+          {/* <CardElement
             className="bg-gray-100/90 w-1/2 mx-auto px-8 py-12 mt-12 rounded-lg"
             options={{
               style: {
@@ -158,7 +160,38 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
                 },
               },
             }}
+          /> */}
+          <CardElement
+            className="w-1/2 mx-auto mt-24 p-4 rounded-none h-24 shadow-md border border-gray-300 bg-white"
+            options={{
+              style: {
+                base: {
+                  iconColor: "#c4f0ff",
+                  color: "#000000",
+                  fontWeight: "500",
+                  fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+                  fontSize: "20px",
+                  fontSmoothing: "antialiased",
+                  ":-webkit-autofill": {
+                    color: "#fce883",
+                  },
+                  "::placeholder": {
+                    color: "#23C050",
+                  },
+                },
+                invalid: {
+                  iconColor: "#FFC7EE",
+                  color: "#FFC7EE",
+                },
+                complete: {
+                  color: "#4caf50", // Color when the input is complete
+                  iconColor: "#4caf50",
+                },
+              },
+              hidePostalCode: true, // Hide the postal code field if not needed
+            }}
           />
+
           <div className="flex justify-center mt-16">
             <button
               type="submit"

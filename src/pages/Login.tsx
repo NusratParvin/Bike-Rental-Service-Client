@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle, FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { toast } from "sonner";
 import { verifyToken } from "../utils/verifyToken";
@@ -47,7 +47,7 @@ const Login = () => {
         });
         setTimeout(() => {
           navigate(`/${verifiedUser.role}/dashboard`);
-        }, 2000);
+        }, 1000);
       }
     } catch (loginError: any) {
       console.log("login failed", loginError);
@@ -249,6 +249,13 @@ const Login = () => {
               </button>
             </div>
           </form>
+
+          <div className="text-center w-4/5 mx-auto mt-6  text-sm tracking-wide text-gray-800">
+            Don't have an account?
+            <Link to="/signup" className="underline">
+              Sign up
+            </Link>
+          </div>
         </motion.div>
       </motion.div>
     </AnimatePresence>

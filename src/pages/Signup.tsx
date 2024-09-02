@@ -66,7 +66,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto h-auto  ">
+    <div className="max-w-7xl mx-auto h-auto mt-24  ">
       <div className="grid md:grid-cols-2 items-center gap-4 h-full">
         <div className="flex justify-center">
           <img src={signupAnimation} className=" w-72 z-50  relative" />

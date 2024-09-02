@@ -27,6 +27,7 @@ const ProtectedDashboardLayout = ({ children, role }: TProtectedRoute) => {
     dispatch(logout());
     return <Navigate to="/login" replace={true} />;
   }
+
   if (!token) {
     console.log("no token");
     return <Navigate to="/login" replace={true} />;

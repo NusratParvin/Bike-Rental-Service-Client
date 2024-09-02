@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaUser,
-  FaShoppingCart,
   FaChevronDown,
   FaTimes,
   FaBars,
+  FaSignOutAlt,
+  FaSignInAlt,
+  FaUserPlus,
 } from "react-icons/fa";
 import { LuBike } from "react-icons/lu";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { logout, useCurrentUser } from "../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { AnimatePresence, motion } from "framer-motion";
 import { FlipLink } from "../utils/flipLink";
+import Tooltip from "../utils/tootip";
+
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
@@ -32,14 +36,42 @@ export const Navbar = () => {
     navigate("/");
   };
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const location = useLocation();
+  const isAboutActive =
+    location.pathname.startsWith("/about/who-are-we") ||
+    location.pathname.startsWith("/about/history");
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50  pt-4 pb-2 bg-transparent ">
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 pt-4 ${
+        scrolled ? "bg-gray-900 shadow-lg" : "bg-transparent"
+      }`}
+    >
+      {/* <nav className="fixed top-0 left-0 right-0 z-50  pt-4 pb-0 bg-transparent "> */}
       <div className="hidden md:block ">
         <div className="grid grid-cols-4 items-center py-2 px-6 border-b border-gray-500   lg:w-11/12 w-full mx-auto">
           {/* Left side (logo) */}
           <div className="flex items-center text-white tracking-wide font-teko">
             <LuBike className="w-7 h-7 mr-2 animate-slide-in" />
-            <div className="text-3xl text-custom-green">RideON</div>
+            <div className="text-4xl text-custom-green">RideON</div>
           </div>
 
           {/* Center (menu) */}
@@ -57,65 +89,114 @@ export const Navbar = () => {
                 <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </li>
 
-              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
-                <Link
-                  to="/about"
-                  className="flex items-center justify-between cursor-pointer"
+              {/* <li className="relative group text-white hover:text-custom-green duration-300 px-4">
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `flex items-center justify-between cursor-pointer ${
+                      isActive ? "text-custom-green" : ""
+                    }`
+                  }
                 >
                   ABOUT
                   <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
                   <FaChevronDown className="ml-2 w-3 h-3" />
-                </Link>
+                </NavLink>
                 <ul className="absolute z-50 left-0 top-full mt-2 w-40 bg-gray-800 text-white opacity-0 group-hover:opacity-100 transform scale-y-0 group-hover:scale-y-100 origin-top transition-all duration-300 ease-in-out">
                   <li className="px-4 py-2 hover:bg-gray-700 hover:text-custom-green">
-                    <Link
-                      to="/about/web-development"
-                      className="cursor-pointer"
+                    <NavLink
+                      to="/about/who-are-we"
+                      className={({ isActive }) =>
+                        `cursor-pointer ${isActive ? "text-custom-green" : ""}`
+                      }
                     >
-                      Web Development
-                    </Link>
+                      WHO ARE WE
+                    </NavLink>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-700 hover:text-custom-green">
-                    <Link
-                      to="/about/app-development"
-                      className="cursor-pointer"
+                    <NavLink
+                      to="/about/history"
+                      className={({ isActive }) =>
+                        `cursor-pointer ${isActive ? "text-custom-green" : ""}`
+                      }
                     >
-                      App Development
-                    </Link>
+                      OUR HISTORY
+                    </NavLink>
+                  </li>
+                </ul>
+              </li> */}
+              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
+                <div
+                  className={`flex items-center justify-between cursor-pointer ${
+                    isAboutActive ? "text-custom-green" : ""
+                  }`}
+                >
+                  ABOUT
+                  <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+                  <FaChevronDown className="ml-2 w-3 h-3" />
+                </div>
+                <ul className="absolute z-50 left-0 top-full mt-2 w-40 bg-gray-800 text-white opacity-0 group-hover:opacity-100 transform scale-y-0 group-hover:scale-y-100 origin-top transition-all duration-300 ease-in-out">
+                  <li className="px-4 py-2 hover:bg-gray-700 hover:text-custom-green">
+                    <NavLink
+                      to="/about/who-are-we"
+                      className={({ isActive }) =>
+                        `cursor-pointer ${isActive ? "text-custom-green" : ""}`
+                      }
+                    >
+                      WHO ARE WE
+                    </NavLink>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-700 hover:text-custom-green">
-                    <Link
-                      to="/about/seo-optimization"
-                      className="cursor-pointer"
+                    <NavLink
+                      to="/about/history"
+                      className={({ isActive }) =>
+                        `cursor-pointer ${isActive ? "text-custom-green" : ""}`
+                      }
                     >
-                      SEO Optimization
-                    </Link>
+                      OUR HISTORY
+                    </NavLink>
                   </li>
                 </ul>
               </li>
 
-              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
-                <Link to="/bike-listing" className="cursor-pointer">
-                  BIKE LISTING
-                </Link>
-                <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
-              </li>
-              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
+              <li className="relative group text-white hover:text-custom-green duration-300 px-4 cursor-pointer">
                 <NavLink
-                  to={`/${isUser?.role}/dashboard`}
+                  to="/bike-listing"
                   className={({ isActive, isPending }) =>
                     isPending ? "pending" : isActive ? "text-custom-green" : ""
                   }
                 >
-                  DASHBOARD
+                  BIKE LISTING
                 </NavLink>
                 <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </li>
+              {isUser && (
+                <li className="relative group text-white hover:text-custom-green duration-300 px-4">
+                  <NavLink
+                    to={`/${isUser?.role}/dashboard`}
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "text-custom-green"
+                        : ""
+                    }
+                  >
+                    DASHBOARD
+                  </NavLink>
+                  <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+                </li>
+              )}
 
-              <li className="relative group text-white hover:text-custom-green duration-300 px-4">
-                <Link to="/contacts" className="cursor-pointer">
-                  CONTACTS
-                </Link>
+              <li className="relative group text-white hover:text-custom-green duration-300 px-4 cursor-pointer">
+                <NavLink
+                  to="/contact-info"
+                  className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "text-custom-green" : ""
+                  }
+                >
+                  CONTACT
+                </NavLink>
                 <span className="absolute left-1/2 -top-5 w-0 h-1 bg-custom-green group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
               </li>
             </ul>
@@ -123,7 +204,13 @@ export const Navbar = () => {
 
           {/* Right side (Icons) */}
           <div className="flex justify-end items-end text-white">
-            <FaShoppingCart className="w-4 h-4 mx-3" />
+            {isUser && (
+              <>
+                <Tooltip text={isUser.email}>
+                  <FaUser className="w-5 h-5 cursor-pointer" />
+                </Tooltip>
+              </>
+            )}
             <AnimatePresence>
               {isUser ? (
                 <motion.div
@@ -158,16 +245,48 @@ export const Navbar = () => {
       {/* Responsive Navbar for Medium and Smaller Devices */}
       <div className="md:hidden  grid grid-cols-3 items-center px-2 ">
         {/* Left side (User and Cart Icons) */}
-        <div className="flex items-center space-x-1 text-white">
+        {/* <div className="flex items-center space-x-1 text-white">
           <FaUser className="w-5 h-5" />
           <FaShoppingCart className="w-5 h-5" />
+        </div> */}
+        <div className="flex items-center space-x-4 text-white">
+          {isUser ? (
+            <>
+              <Tooltip text={isUser.email}>
+                <FaUser className="w-5 h-5 cursor-pointer" />
+              </Tooltip>
+              <Tooltip text="Logout">
+                <FaSignOutAlt
+                  className="w-5 h-5 cursor-pointer hover:text-custom-green"
+                  onClick={handleLogout}
+                />
+              </Tooltip>
+            </>
+          ) : (
+            <>
+              <Tooltip text="Login">
+                <Link to="/login">
+                  <FaSignInAlt className="w-5 h-5 cursor-pointer hover:text-custom-green" />
+                </Link>
+              </Tooltip>
+              <Tooltip text="Sign Up">
+                <Link to="/signup">
+                  <FaUserPlus className="w-5 h-5 cursor-pointer hover:text-custom-green" />
+                </Link>
+              </Tooltip>
+            </>
+          )}
         </div>
 
         {/* Center (Logo) */}
-        <div className="flex justify-center items-center text-white tracking-wide font-teko ">
+        <Link
+          to="/"
+          className="flex justify-center items-center text-white tracking-wide font-teko "
+        >
           <LuBike className="w-7 h-7 mr-2" />
-          <div className="text-3xl">RideON</div>
-        </div>
+          <div className="text-4xl text-custom-green">RideON</div>
+        </Link>
+        {/* </div> */}
 
         {/* Right side (Hamburger Menu) */}
         <div
@@ -192,67 +311,141 @@ export const Navbar = () => {
 
       {/* Slide-out Menu responsive */}
       <div
-        className={`md:hidden fixed top-12 right-0 w-64 h-full bg-teal-950/40 text-white transform ${
+        className={`md:hidden fixed top-0 pt-10 -z-20 right-0 w-64 h-full bg-green-950 text-white transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-500 ease-in-out z-50`}
       >
         <ul className="flex flex-col space-y-4 mt-16 px-6 ">
-          <li className="relative group text-white hover:text-custom-green duration-300 px-4">
-            <Link to="/" className="cursor-pointer">
+          <li className="relative group text-white hover:text-custom-green duration-300 px-4 cursor-pointer">
+            <NavLink
+              to="/"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-custom-green" : ""
+              }
+            >
               HOME
-            </Link>
+            </NavLink>
           </li>
 
-          <li className="relative group hover:text-custom-green duration-300 px-4   ">
-            <span className="flex items-center  ">
-              <Link to="/about" className="cursor-pointer">
+          {/* <li className="relative group hover:text-custom-green duration-300 px-4">
+            <span className="flex items-center">
+              <NavLink
+                to=""
+                className={({ isActive }) =>
+                  isActive ? "text-custom-green" : ""
+                }
+              >
                 ABOUT
-              </Link>
-
+              </NavLink>
               <FaChevronDown className="ml-2" onClick={toggleSubmenu} />
             </span>
             <ul
-              className={` pl-4 space-y-2 text-white overflow-hidden ${
+              className={`pl-4 space-y-2 text-white overflow-hidden ${
                 isSubmenuOpen
-                  ? " py-4 max-h-60 opacity-100"
+                  ? "py-4 max-h-60 opacity-100"
                   : "max-h-0 opacity-0"
               } transform origin-top transition-all duration-700 ease-in-out`}
             >
               <li className="hover:bg-gray-800 hover:text-custom-green px-2 py-1">
-                <Link to="/about/web-development" className="cursor-pointer">
-                  Web Development
-                </Link>
+                <NavLink
+                  to="/about/who-are-we"
+                  className={({ isActive }) =>
+                    isActive ? "text-custom-green" : ""
+                  }
+                >
+                  WHO ARE WE
+                </NavLink>
               </li>
+              <li className="hover:bg-gray-800 hover:text-custom-green px-2 py-1">
+                <NavLink
+                  to="/about/history"
+                  className={({ isActive }) =>
+                    isActive ? "text-custom-green" : ""
+                  }
+                >
+                  OUR HISTORY
+                </NavLink>
+              </li>
+            </ul>
+          </li> */}
 
+          <li
+            className={`relative group duration-300 px-4 ${
+              isAboutActive ? "text-custom-green" : "hover:text-custom-green"
+            }`}
+          >
+            <span className="flex items-center">
+              <div className={isAboutActive ? "text-custom-green" : ""}>
+                ABOUT
+              </div>
+              <FaChevronDown
+                className="ml-2 cursor-pointer"
+                onClick={toggleSubmenu}
+              />
+            </span>
+            <ul
+              className={`pl-4 space-y-2 text-white overflow-hidden ${
+                isSubmenuOpen
+                  ? "py-4 max-h-60 opacity-100"
+                  : "max-h-0 opacity-0"
+              } transform origin-top transition-all duration-700 ease-in-out`}
+            >
               <li className="hover:bg-gray-800 hover:text-custom-green px-2 py-1">
-                <Link to="/about/app-development" className="cursor-pointer">
-                  App Development
-                </Link>
+                <NavLink
+                  to="/about/who-are-we"
+                  className={({ isActive }) =>
+                    isActive ? "text-custom-green" : ""
+                  }
+                >
+                  WHO ARE WE
+                </NavLink>
               </li>
               <li className="hover:bg-gray-800 hover:text-custom-green px-2 py-1">
-                <Link to="/about/seo-optimization" className="cursor-pointer">
-                  SEO Optimization
-                </Link>
+                <NavLink
+                  to="/about/history"
+                  className={({ isActive }) =>
+                    isActive ? "text-custom-green" : ""
+                  }
+                >
+                  OUR HISTORY
+                </NavLink>
               </li>
             </ul>
           </li>
 
-          <li className="relative group hover:text-custom-green duration-300 px-4  ">
-            <Link to="/bike-listing" className="cursor-pointer">
+          <li className="relative group hover:text-custom-green duration-300 px-4  cursor-pointer">
+            <NavLink
+              to="/bike-listing"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-custom-green" : ""
+              }
+            >
               BIKE LISTING
-            </Link>
+            </NavLink>
           </li>
 
-          <li className="relative group hover:text-custom-green duration-300 px-4">
-            <Link to="/gallery" className="cursor-pointer">
-              GALLERY
-            </Link>
-          </li>
+          {isUser && (
+            <li className="relative group hover:text-custom-green duration-300 px-4 cursor-pointer">
+              <NavLink
+                to={`/${isUser?.role}/dashboard`}
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "text-custom-green" : ""
+                }
+              >
+                DASHBOARD
+              </NavLink>
+            </li>
+          )}
 
-          <li className="relative group hover:text-custom-green duration-300 px-4">
-            <Link to="/contacts" className="cursor-pointer">
-              CONTACTS
-            </Link>
+          <li className="relative group hover:text-custom-green duration-300 px-4 cursor-pointer">
+            <NavLink
+              to="/contact-info"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-custom-green" : ""
+              }
+            >
+              CONTACT
+            </NavLink>
           </li>
 
           {/* Conditional Rendering for Auth Options */}
@@ -262,15 +455,25 @@ export const Navbar = () => {
             </li>
           ) : (
             <>
-              <li className="relative group hover:text-custom-green duration-300 px-4">
-                <Link to="/login" className="cursor-pointer">
+              <li className="relative group hover:text-custom-green duration-300 px-4 cursor-pointer">
+                <NavLink
+                  to="/login"
+                  className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "text-custom-green" : ""
+                  }
+                >
                   LOGIN
-                </Link>
+                </NavLink>
               </li>
-              <li className="relative group hover:text-custom-green duration-300 px-4">
-                <Link to="/signup" className="cursor-pointer">
+              <li className="relative group hover:text-custom-green duration-300 px-4 cursor-pointer">
+                <NavLink
+                  to="/signup"
+                  className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "text-custom-green" : ""
+                  }
+                >
                   SIGNUP
-                </Link>
+                </NavLink>
               </li>
             </>
           )}

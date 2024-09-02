@@ -83,7 +83,7 @@ const BikeListing = () => {
     );
 
   return (
-    <div className="w-full mx-auto py-0 mb-8 border bg-gray-200 text-gray-700">
+    <div className="w-full mx-auto py-0 mb-8 border bg-gray-200 text-gray-700 min-h-screen">
       <div className="flex py-12 px-4 md:flex-row flex-col">
         <div className="md:w-1/4 w-full pr-4 md:pb-0 pb-12">
           <h2 className="text-3xl font-semibold mb-4 uppercase font-teko text-custom-green">
@@ -190,11 +190,11 @@ const BikeListing = () => {
               </div>
             </div>
 
-            <div className="h-screen">
+            <div className="min-h-screen">
               {isLoading ? (
                 <Spinner />
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-6 mb-24 overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-6 mb-24 overflow-hidden  ">
                   {filteredBikes && filteredBikes.length > 0 ? (
                     filteredBikes.map((bike: TBike) => (
                       <SingleBike key={bike._id} bike={bike} />

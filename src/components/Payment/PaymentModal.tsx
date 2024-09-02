@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
+import { useCurrentUser } from "../../redux/features/auth/authSlice";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -11,6 +13,8 @@ interface PaymentModalProps {
 const PaymentModal = ({ isOpen, setIsOpen, bikeId }: PaymentModalProps) => {
   const [startTime, setStartTime] = useState("");
   const navigate = useNavigate();
+  const isUser = useAppSelector(useCurrentUser);
+  console.log(isUser?.role);
 
   const formatDateTimeForInput = (date: Date) => {
     const offset = date.getTimezoneOffset();
@@ -32,7 +36,7 @@ const PaymentModal = ({ isOpen, setIsOpen, bikeId }: PaymentModalProps) => {
 
     console.log("Booking Data:", bookingData);
 
-    navigate(`../payment`, { state: bookingData });
+    navigate(`../${isUser?.role}/dashboard/payment`, { state: bookingData });
   };
 
   const handleDateTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {

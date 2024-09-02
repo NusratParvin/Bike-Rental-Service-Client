@@ -42,7 +42,7 @@ const BikeGrid = () => {
                   <p className="text-white">{bike.brand}</p>
 
                   <Link
-                    to={isUser ? `/bike-details/${bike._id}` : "/signup"}
+                    to={isUser ? `/bike-details/${bike._id}` : "/login"}
                     className="relative inline-block px-4 py-2 mt-4 text-sm font-semibold text-white transition-all duration-500 border border-custom-green rounded-none group-hover:bg-custom-green group-hover:text-white focus:outline-none"
                   >
                     View Detail
